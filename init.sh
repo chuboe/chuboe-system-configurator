@@ -34,3 +34,13 @@ if [[ $1 == "" ]]
 then
     echo source \~/chuboe-system-configurator/.my_bash >> ~/.bashrc
 fi
+
+### system stats ###
+# execute this file if you wish the system to automatically collect statistics
+# sudo sed -i "s|ENABLED=.*|ENABLED=\"true\"|g" /etc/default/sysstat
+
+# reference: https://www.youtube.com/watch?v=_4WVPSfGqos
+
+# usage after enabled:
+# see files: ls -l /var/log/sysstat/
+# see statistics for 26th of month: sudo sar -u -f /var/log/sysstat/sa26
