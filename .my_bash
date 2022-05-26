@@ -1,0 +1,144 @@
+# source project details
+FILE=~/chuboe_system_configurator/.bash_this_server
+if [ -f "$FILE" ]; then
+    source "$FILE"
+fi
+# example contents of .bash_this_server to point a different database host
+# THIS_SERVER_HOST=" -h 10.100.2.49"
+
+# use vim style key bindings with the terminal command prompt
+set -o vi
+
+# add timestamp to history
+export HISTTIMEFORMAT="%d/%m/%y %T "
+
+# alias for psql assuming iDempiere
+alias psqli="export PAGER='vim -f -R -'; psql -d idempiere -U adempiere $THIS_SERVER_HOST"
+
+# proper way to run a psli script
+# ref: http://petereisentraut.blogspot.com/2010/03/running-sql-scripts-with-psql.html
+alias psqli-script="PGOPTIONS='--client-min-messages=warning' psqli -X -q -a -1 -v ON_ERROR_STOP=1 --pset pager=off --pset expanded=auto $THIS_SERVER_HOST"
+
+# alias for sudo assuming iDempiere
+alias sudoi="sudo -u idempiere "
+
+# change default editor to vim
+export EDITOR=vim
+
+# create alias for read only vim. Use the following to edit and write:
+# :set modifiable write
+alias v="vim -M "
+
+# create ll -tr alias
+alias ltr="ll -tr "
+
+# history
+alias hh="history"
+
+# create hg pull -u alias
+alias hgpu="hg pull -u "
+alias hgst="hg status "
+alias hgco="hg commit -m "
+
+# TMUX helpers
+ta() {
+  history -a
+  tmux attach -t $*
+  if [ "$?" == "1" ];
+  then
+    tmux new-session -s $*
+  fi
+}
+
+# tmux shortcut
+alias t="ta steak"
+
+# write tmux session to file
+alias t-save="tmux capture-pane -pS -100000 &> "
+
+# write tmux current screen to file
+alias t-snap="tmux capture-pane -p &> "
+
+# common cd commands
+alias cdoc="cd /opt/chuboe/idempiere-installation-script/utils/"
+alias cdoi="cd /opt/idempiere-server/utils"
+
+# create directory if not exists and move to that directory
+take ()
+{
+    mkdir -p -- "$1" &&
+      cd -P -- "$1"
+}
+
+# buku
+alias b="buku"
+
+# add new from command line
+alias ba="buku -a"
+
+# add new from editor
+alias bw="buku -w"
+
+# list bookmarks
+alias bp="buku -p"
+
+# open bookmark with no prompt
+alias bo="buku --oa --np"
+
+# open bookmark with no prompt and exit
+boe ()
+{
+    buku --oa --np $1; exit;
+}
+
+# list tags
+alias bt="buku --stag"
+
+# search - regex
+alias bs="buku -r"
+
+# help
+alias csc="vim ~/chuboe_system_configurator/.my_bash"
+
+# find biggest filed and directories
+alias ducks='du -cks -- * | sort -rn | head'
+
+# exit
+# alias q="mkdir -p ~/.tmux-save/; t-save ~/.tmux-save/tsave-`date +%Y%m%d`_`date +%H%M%S`.log; exit;"
+
+# exit with naming parameter
+function q ()
+{
+    if [ -z $1 ]
+    then
+        ADD_TEXT=''
+    else
+        ADD_TEXT=$(echo "$*" | sed -r 's|[  ]+|-|g')
+    fi
+    echo File Suffix: $ADD_TEXT
+    mkdir -p ~/.tmux-save/; t-save ~/.tmux-save/tsave-`date +%Y%m%d`_`date +%H%M%S`$ADD_TEXT.log; exit;
+}
+
+# history
+alias h="history"
+
+# fd-find
+alias fd=fdfind
+
+# fail -f
+alias tf='tail -f '
+
+# jrnl journal
+alias j='jrnl'
+
+# always start tmux
+# https://unix.stackexchange.com/questions/43601/how-can-i-set-my-default-shell-to-start-up-tmux
+#if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
+#  exec tmux
+#fi
+
+# source project details
+FILE=~/chuboe_project/.bash_chuboe_add
+if [ -f "$FILE" ]; then
+    source "$FILE"
+fi

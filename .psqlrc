@@ -1,0 +1,18 @@
+\set datetag `date +'%F_%H-%M-%S'`
+\set userlogged `/usr/bin/logname`
+\set QUIET 1
+\set PROMPT1 '%[%033[1m%]%M %n@%/%R%[%033[0m%]%# '
+\set PROMPT2 '[more] %R > '
+\pset null '[NULL]'
+\x auto
+\set VERBOSITY verbose
+\set HISTFILE ~/.psql_history.d/psql_history- :DBNAME-:userlogged-:datetag
+\set HISTCONTROL ignoredups
+\set COMP_KEYWORD_CASE upper
+\set PSQL_EDITOR /usr/bin/vim
+\set EDITOR /usr/bin/vim
+\set VISUAL /usr/bin/vim
+\set ON_ERROR_ROLLBACK interactive
+\timing
+\set HISTSIZE 5000
+\unset QUIET
