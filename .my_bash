@@ -40,6 +40,11 @@ alias hgpu="hg pull -u "
 alias hgst="hg status "
 alias hgco="hg commit -m "
 
+# create hg pull -u alias
+alias gpu="git pull  "
+alias gst="git status "
+alias gco="git commit -m "
+
 # TMUX helpers
 ta() {
   history -a
