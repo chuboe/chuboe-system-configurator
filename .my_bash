@@ -64,8 +64,12 @@ alias t-save="tmux capture-pane -pS -100000 &> "
 alias t-snap="tmux capture-pane -p &> "
 
 # common cd commands
-alias cdoc="cd /opt/chuboe/idempiere-installation-script/utils/"
-alias cdoi="cd /opt/idempiere-server/utils"
+alias cdoc="cd /opt/chuboe/idempiere-installation-script/"
+alias cdocb="cd /opt/chuboe/idempiere-installation-script/chuboe_backup/"
+alias cdocu="cd /opt/chuboe/idempiere-installation-script/utils/"
+alias cdoi="cd /opt/idempiere-server/"
+alias cdoiu="cd /opt/idempiere-server/utils"
+alias cdoil="cd /opt/idempiere-server/log"
 
 # create directory if not exists and move to that directory
 take ()
