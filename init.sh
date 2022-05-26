@@ -32,5 +32,5 @@ cp .tmux.conf ~/.
 
 if [[ $1 == "" ]]
 then
-    echo source \~/chuboe_system_configurator/.my_bash >> ~/.bashrc
+    echo source \~/chuboe-system-configurator/.my_bash >> ~/.bashrc
 fi
