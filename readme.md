@@ -8,3 +8,7 @@ The purpose of this repository is to:
 # Installation
 
 Clone this repository to ~/
+
+# Usage
+
+* Any bash statements you wish to keep local to a given server, add to file named .bash_this_server in the ~/chuboe-system-configurator/ directory
