@@ -7,7 +7,8 @@ The purpose of this repository is to:
 
 # Installation
 
-Clone this repository to ~/
+* Clone this repository to ~/
+* Execute init.sh
 
 # Tools and Defaults
 
