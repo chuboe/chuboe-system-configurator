@@ -35,6 +35,9 @@ then
     echo source \~/chuboe-system-configurator/.my_bash >> ~/.bashrc
 fi
 
+mkdir -p ~/chuboe-system-backup/
+cp sync-backup.sh ~/chuboe-system-backup/.
+
 ### system stats ###
 # execute this file if you wish the system to automatically collect statistics
 # sudo sed -i "s|ENABLED=.*|ENABLED=\"true\"|g" /etc/default/sysstat
