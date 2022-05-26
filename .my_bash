@@ -1,5 +1,5 @@
 # source project details
-FILE=~/chuboe_system_configurator/.bash_this_server
+FILE=~/chuboe-system-configurator/.bash_this_server
 if [ -f "$FILE" ]; then
     source "$FILE"
 fi
@@ -98,7 +98,7 @@ alias bt="buku --stag"
 alias bs="buku -r"
 
 # help
-alias csc="vim ~/chuboe_system_configurator/.my_bash"
+alias csc="vim ~/chuboe-system-configurator/.my_bash"
 
 # find biggest filed and directories
 alias ducks='du -cks -- * | sort -rn | head'
