@@ -32,9 +32,6 @@ alias v="vim -M "
 # create ll -tr alias
 alias ltr="ll -tr "
 
-# history
-alias hh="history"
-
 # create hg pull -u alias
 alias hgpu="hg pull -u "
 alias hgst="hg status "
@@ -44,6 +41,7 @@ alias hgco="hg commit -m "
 alias gpu="git pull  "
 alias gst="git status "
 alias gco="git commit -m "
+alias ga="git add . "
 
 # TMUX helpers
 ta() {
