@@ -2,26 +2,36 @@
 
 # Notes:
 # This script assumes you created a ~/chuboe-system-backup directory and copied this script to this location
-# By maintaining multiple sub-directories (private/public), you can use a different backup strategy for each directory.
+# By maintaining multiple sub-directories (private/public), you can use a different backup strategy for each directory
+# Create as many sub directories as you wish - create an array per sub directory
 
 # Instuctions
-# 1. Keep the creation of all symbolic links in this script. Do not create them manually.
-#    It is ok to re-create them every time.
-#    The actual sync statements are at the bottom of this script
-# 2. Search on ACTION and update accordingly
+# 1. fill out each of the arrays (private and public)
+# 2. Comment out any path/object that does not apply to this server
+# 3. Search on the world ACTION and complete the necessary steps
 
 #### Variables ####
 
 #ACTION
-REMOTE_NAME_THIS_COMPUTER=Chuboe-Sand-01
+BU_REMOTE_NAME=chuboe-sand-01
 
 PATH_LOCAL_PRIVATE=~/chuboe-system-backup/private
+mkdir -p $PATH_LOCAL_PRIVATE
 PATH_LOCAL_PUBLIC=~/chuboe-system-backup/public
+mkdir -p $PATH_LOCAL_PUBLIC
+
+# Create home directories to keep general purpose private files
+PATH_GENERAL_PURPOSE_PRIVATE="~/chuboe-keep-private/"
+mkdir -p $PATH_GENERAL_PURPOSE_PRIVATE
+
+# Create home directories to keep general purpose public files
+PATH_GENERAL_PURPOSE_PUBLIC="~/chuboe-keep-public/"
+mkdir -p $PATH_GENERAL_PURPOSE_PUBLIC
 
 #ACTION
 RSYNC_BU_USER=SomeUser
 RSYNC_BU_URL=some.url.com
-RSYNC_BU_PATH=$REMOTE_NAME_THIS_COMPUTER/backup
+RSYNC_BU_PATH=$BU_REMOTE_NAME/backup
 
 #ACTION
 AWS_BU_BUCKET_PATH=s3://bucketName/some/path/
@@ -29,49 +39,46 @@ AWS_BU_BUCKET_PATH=s3://bucketName/some/path/
 #   sudo apt install awscli
 #   aws --configure
 
-# Create as many folders as you need. Each folder can have a different strategy
-mkdir -p $PATH_LOCAL_PRIVATE
-mkdir -p $PATH_LOCAL_PUBLIC
+#### Private Array ####
+declare -A BU_PRIVATE
+BU_PRIVATE[buku]="~/.local/share/buku/"
+BU_PRIVATE[jrnl]="~/.local/share/jrnl/"
+BU_PRIVATE[jrnl-config]="~/.config/jrnl/"
+BU_PRIVATE[id-all]="/opt/idempiere-server/"
+BU_PRIVATE[id-log]="/opt/idempiere-server/log/"
+BU_PRIVATE[id-utils]="/opt/idempiere-server/utils/"
+BU_PRIVATE[sql]="~/sql/"
+BU_PRIVATE[keep-private]="$PATH_GENERAL_PURPOSE_PRIVATE"
+BU_PRIVATE[sql]="~/sql/"
+BU_PRIVATE[chuboe-utils]="/opt/chuboe/idempiere-installation-script/utils/"
+BU_PRIVATE[chuboe-backup-archive]="/opt/chuboe/idempiere-installation-script/chuboe_backup/archive/"
+BU_PRIVATE[chuboe-backup-latest]="/opt/chuboe/idempiere-installation-script/chuboe_backup/latest/"
 
-#### list of items to be backed up ####
+#### Public Array ####
+declare -A BU_PUBLIC
+BU_PUBLIC[keep-public]="$PATH_GENERAL_PURPOSE_PUBLIC"
 
-#buku - bookmarks
-ln -s ~/.local/share/buku/ $PATH_LOCAL_PRIVATE/buku
-
-#jrnl - journal
-ln -s ~/.local/share/jrnl/ $PATH_LOCAL_PRIVATE/jrnl
-ln -s ~/.config/jrnl/ $PATH_LOCAL_PRIVATE/jrnl-config
-
-#id-all
-ln -s /opt/idempiere-server/ $PATH_LOCAL_PRIVATE/idempiere
-
-#id-log
-ln -s /opt/idempiere-server/log/ $PATH_LOCAL_PRIVATE/idempiere-log
-
-#id-utils
-ln -s /opt/idempiere-server/utils/ $PATH_LOCAL_PRIVATE/idempiere-utils
-
-#sql
-ln -s ~/sql/ $PATH_LOCAL_PRIVATE/sql
-
-#keep-private
-mkdir -p ~/chuboe-keep-private/
-ln -s ~/chuboe-keep-private/ $PATH_LOCAL_PRIVATE/keep-private
-
-#keep-publish - note: public
-mkdir -p ~/chuboe-keep-publish/
-ln -s ~/chuboe-keep-publish/ $PATH_LOCAL_PUBLIC/keep-publish
-
-#chuboe-utils
-ln -s /opt/chuboe/idempiere-installation-script/utils/ $PATH_LOCAL_PRIVATE/chuboe-utils
-
-#chuboe-backup-archive
-ln -s /opt/chuboe/idempiere-installation-script/chuboe_backup/archive/ $PATH_LOCAL_PRIVATE/chuboe-backup-archive
-
-#chuboe-backup-latest
-ln -s /opt/chuboe/idempiere-installation-script/chuboe_backup/latest/ $PATH_LOCAL_PRIVATE/chuboe-backup-latest
+# example - deleteme
+LNS_SOURCE=
+LNS_TARGET="$PATH_LOCAL_PRIVATE/buku"
+if [ ! -L "$LNS_TARGET" ]; then
+    ln -s ~/.local/share/buku/ $PATH_LOCAL_PRIVATE/buku
+fi
 
 #### backup private rsync ####
+
+for key in "${!BU_PRIVATE[@]}"; do
+    echo "$key ${BU_PRIVATE[$key]}"
+	LNS_SOURCE=${BU_PRIVATE[$key]}
+	LNS_TARGET="$PATH_LOCAL_PRIVATE/$key"
+	if [ ! -L "$LNS_TARGET" ]; then
+		ln -s $LNS_SOURCE $LNS_TARGET
+	fi
+done
+
+exit 0
+
+ssh $RSYNC_BU_USER@$RSYNC_BU_URL mkdir -p $RSYNC_BU_PATH
 rsync -rptgoDL $PATH_LOCAL_PRIVATE/ $RSYNC_BU_USER@$RSYNC_BU_URL:$RSYNC_BU_PATH
 
 #Note: if you need to use a pem, things get more interesting with rsync in a script. Here is an example. You need to use the 'eval' command to get the quotations to work
@@ -82,4 +89,9 @@ rsync -rptgoDL $PATH_LOCAL_PRIVATE/ $RSYNC_BU_USER@$RSYNC_BU_URL:$RSYNC_BU_PATH
 aws s3 sync $PATH_LOCAL_PRIVATE/ $AWS_BU_BUCKET_PATH
 
 #### backup public aws ####
+
+for key in "${!BU_PUBLIC[@]}"; do
+    echo "$key ${BU_PUBLIC[$key]}"
+done
+
 aws s3 sync $PATH_LOCAL_PUBLIC/ $AWS_BU_BUCKET_PATH
