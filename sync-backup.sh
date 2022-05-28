@@ -26,9 +26,9 @@
 BU_REMOTE_NAME=chuboe-sand-01
 
 # Create a local consolidation point where we will create a collection of symbolic links
-PATH_LOCAL_PRIVATE="~/chuboe-system-backup/private"
+PATH_LOCAL_PRIVATE="private"
 mkdir -p $PATH_LOCAL_PRIVATE
-PATH_LOCAL_PUBLIC="~/chuboe-system-backup/public"
+PATH_LOCAL_PUBLIC="public"
 mkdir -p $PATH_LOCAL_PUBLIC
 
 # Create home directory to keep general purpose private files
@@ -56,23 +56,26 @@ AWS_BU_BUCKET_PATH=s3://bucketName/some/path/
 
 #### Private Backup Array ####
 # Create a link to all locations that need to be copied offsite.
+# Uncomment the lines that apply to this server/desktop
 declare -A BU_PRIVATE
-BU_PRIVATE[buku]="~/.local/share/buku/"
-BU_PRIVATE[jrnl]="~/.local/share/jrnl/"
-BU_PRIVATE[jrnl-config]="~/.config/jrnl/"
+#BU_PRIVATE[buku]="~/.local/share/buku/"
+#BU_PRIVATE[jrnl]="~/.local/share/jrnl/"
+#BU_PRIVATE[jrnl-config]="~/.config/jrnl/"
 #BU_PRIVATE[id-all]="/opt/idempiere-server/"
-BU_PRIVATE[id-log]="/opt/idempiere-server/log/"
-BU_PRIVATE[id-utils]="/opt/idempiere-server/utils/"
-BU_PRIVATE[sql]="~/sql/"
-BU_PRIVATE[keep-private]="$PATH_GENERAL_PURPOSE_PRIVATE"
-BU_PRIVATE[chuboe-utils]="/opt/chuboe/idempiere-installation-script/utils/"
-BU_PRIVATE[chuboe-backup-archive]="/opt/chuboe/idempiere-installation-script/chuboe_backup/archive/"
-BU_PRIVATE[chuboe-backup-latest]="/opt/chuboe/idempiere-installation-script/chuboe_backup/latest/"
-BU_PRIVATE[metabase]="/opt/metabase/"
+#BU_PRIVATE[id-log]="/opt/idempiere-server/log/"
+#BU_PRIVATE[id-utils]="/opt/idempiere-server/utils/"
+#BU_PRIVATE[sql]="~/sql/"
+#BU_PRIVATE[keep-private]="$PATH_GENERAL_PURPOSE_PRIVATE"
+#BU_PRIVATE[chuboe-utils]="/opt/chuboe/idempiere-installation-script/utils/"
+#BU_PRIVATE[chuboe-backup-archive]="/opt/chuboe/idempiere-installation-script/chuboe_backup/archive/"
+#BU_PRIVATE[chuboe-backup-latest]="/opt/chuboe/idempiere-installation-script/chuboe_backup/latest/"
+#BU_PRIVATE[metabase]="/opt/metabase/"
 
 #### Public Backup Array ####
+# Create a link to all locations that need to be copied offsite.
+# Uncomment the lines that apply to this server/desktop
 declare -A BU_PUBLIC
-BU_PUBLIC[keep-public]="$PATH_GENERAL_PURPOSE_PUBLIC"
+#BU_PUBLIC[keep-public]="$PATH_GENERAL_PURPOSE_PUBLIC"
 
 #### example - deleteme ####
 #LNS_SOURCE=
