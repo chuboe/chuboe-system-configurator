@@ -1,5 +1,6 @@
 #!/usr/bin/bash
 
+
 #### Summary ####
 # This script exists to make backing up all desktop and server artifacts simple and easy from a single location.
 
@@ -18,8 +19,8 @@
 # Here is an example:
 #   TODO: add example here
 
-#### Variables ####
 
+#### Variables ####
 #ACTION
 # Name of the remote backup directory that will be created for this server on your backup device/service
 BU_REMOTE_NAME=chuboe-sand-01
@@ -43,6 +44,7 @@ AWS_BU_BUCKET_PATH=s3://bucketName/some/path/
 #   sudo apt install awscli
 #   aws --configure
 
+
 #### Private Backup Array ####
 # Create a link to all locations that need to be copied offsite to a private location.
 # Uncomment the lines that apply to this server/desktop
@@ -60,21 +62,15 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[chuboe-backup-latest]="/opt/chuboe/idempiere-installation-script/chuboe_backup/latest/"
 #BU_PRIVATE[metabase]="/opt/metabase/"
 
+
 #### Public Backup Array ####
 # Create a link to all locations that need to be copied offsite to a publicly accessible location.
 # Uncomment the lines that apply to this server/desktop
 declare -A BU_PUBLIC
 #BU_PUBLIC[backup-public]="~/chuboe-backup-public"
 
-#### example - deleteme ####
-#LNS_SOURCE=
-#LNS_TARGET="$PATH_LOCAL_PRIVATE/buku"
-#if [ ! -L "$LNS_TARGET" ]; then
-#    ln -s ~/.local/share/buku/ $PATH_LOCAL_PRIVATE/buku
-#fi
 
-#### backup private rsync ####
-
+#### Create Private Links ####
 #Create sumbolic link so that a single backup script and push all backup locations as once
 for key in "${!BU_PRIVATE[@]}"; do
     echo "$key ${BU_PRIVATE[$key]}"
@@ -85,8 +81,8 @@ for key in "${!BU_PRIVATE[@]}"; do
 	fi
 done
 
-exit 0
 
+#### Backup Private via Rsync ####
 ssh $RSYNC_BU_USER@$RSYNC_BU_URL mkdir -p $RSYNC_BU_PATH
 rsync -rptgoDL $PATH_LOCAL_PRIVATE/ $RSYNC_BU_USER@$RSYNC_BU_URL:$RSYNC_BU_PATH
 
@@ -94,13 +90,27 @@ rsync -rptgoDL $PATH_LOCAL_PRIVATE/ $RSYNC_BU_USER@$RSYNC_BU_URL:$RSYNC_BU_PATH
 #SC_SSH_PEM_RSYNC="-e \"ssh $SC_SSH_PEM\""
 #eval sudo rsync " -P $SC_SSH_PEM_RSYNC -a --delete /some/local/dir/ $RSYNC_BU_USER@$RSYNC_BU_URL:/$RSYNC_BU_PATH"
 
-#### backup private aws ####
-aws s3 sync $PATH_LOCAL_PRIVATE/ $AWS_BU_BUCKET_PATH
 
-#### backup public aws ####
+#### Backup Private via AWS ####
+# uncomment if needed
+#aws s3 sync $PATH_LOCAL_PRIVATE/ $AWS_BU_BUCKET_PATH
 
+
+#### Create Public Links ####
 for key in "${!BU_PUBLIC[@]}"; do
     echo "$key ${BU_PUBLIC[$key]}"
+	LNS_SOURCE=${BU_PUBLIC[$key]}
+	LNS_TARGET="$PATH_LOCAL_PUBLIC/$key"
+	if [ ! -L "$LNS_TARGET" ]; then
+		ln -s $LNS_SOURCE $LNS_TARGET
+	fi
 done
 
-aws s3 sync $PATH_LOCAL_PUBLIC/ $AWS_BU_BUCKET_PATH
+
+#### Backup Public via Rsync ####
+# TODO
+
+
+#### Backup Public via AWS ####
+# uncomment if needed
+#aws s3 sync $PATH_LOCAL_PUBLIC/ $AWS_BU_BUCKET_PATH
