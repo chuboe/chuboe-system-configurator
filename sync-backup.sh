@@ -6,7 +6,6 @@
 # Notes:
 # While this script comes with the github.com/chuboe/chuboe-system-configurator/, it can be used in isolation if needed
 # This script assumes (a) the presence of a ~/chuboe-system-backup directory and (b) this script is copied to this location
-# This script assumes the presence of sub-directories in ~/chuboe-system-backup
 # By maintaining multiple sub-directories (private/public), you can use a different backup strategy for each directory
 
 # Minimal Instuctions
@@ -30,16 +29,6 @@ PATH_LOCAL_PRIVATE="private"
 mkdir -p $PATH_LOCAL_PRIVATE
 PATH_LOCAL_PUBLIC="public"
 mkdir -p $PATH_LOCAL_PUBLIC
-
-# Create home directory to keep general purpose private files
-# Users can add files to these locations at any point in the future
-PATH_GENERAL_PURPOSE_PRIVATE="../chuboe-keep-private/"
-mkdir -p $PATH_GENERAL_PURPOSE_PRIVATE
-
-# Create home directory to keep general purpose public files
-# Users can add files to these locations at any point in the future
-PATH_GENERAL_PURPOSE_PUBLIC="../chuboe-keep-public/"
-mkdir -p $PATH_GENERAL_PURPOSE_PUBLIC
 
 #ACTION
 # Name the remote rsync service
@@ -65,7 +54,7 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[id-log]="/opt/idempiere-server/log/"
 #BU_PRIVATE[id-utils]="/opt/idempiere-server/utils/"
 #BU_PRIVATE[sql]="~/sql/"
-#BU_PRIVATE[keep-private]="$PATH_GENERAL_PURPOSE_PRIVATE"
+#BU_PRIVATE[backup-private]="~/chuboe-backup-private"
 #BU_PRIVATE[chuboe-utils]="/opt/chuboe/idempiere-installation-script/utils/"
 #BU_PRIVATE[chuboe-backup-archive]="/opt/chuboe/idempiere-installation-script/chuboe_backup/archive/"
 #BU_PRIVATE[chuboe-backup-latest]="/opt/chuboe/idempiere-installation-script/chuboe_backup/latest/"
@@ -75,7 +64,7 @@ declare -A BU_PRIVATE
 # Create a link to all locations that need to be copied offsite.
 # Uncomment the lines that apply to this server/desktop
 declare -A BU_PUBLIC
-#BU_PUBLIC[keep-public]="$PATH_GENERAL_PURPOSE_PUBLIC"
+#BU_PUBLIC[backup-public]="~/chuboe-backup-public"
 
 #### example - deleteme ####
 #LNS_SOURCE=
