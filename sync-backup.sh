@@ -33,12 +33,12 @@ mkdir -p $PATH_LOCAL_PUBLIC
 
 # Create home directory to keep general purpose private files
 # Users can add files to these locations at any point in the future
-PATH_GENERAL_PURPOSE_PRIVATE="~/chuboe-keep-private/"
+PATH_GENERAL_PURPOSE_PRIVATE="../chuboe-keep-private/"
 mkdir -p $PATH_GENERAL_PURPOSE_PRIVATE
 
 # Create home directory to keep general purpose public files
 # Users can add files to these locations at any point in the future
-PATH_GENERAL_PURPOSE_PUBLIC="~/chuboe-keep-public/"
+PATH_GENERAL_PURPOSE_PUBLIC="../chuboe-keep-public/"
 mkdir -p $PATH_GENERAL_PURPOSE_PUBLIC
 
 #ACTION
