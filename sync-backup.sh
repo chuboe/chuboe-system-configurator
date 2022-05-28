@@ -44,7 +44,7 @@ AWS_BU_BUCKET_PATH=s3://bucketName/some/path/
 #   aws --configure
 
 #### Private Backup Array ####
-# Create a link to all locations that need to be copied offsite.
+# Create a link to all locations that need to be copied offsite to a private location.
 # Uncomment the lines that apply to this server/desktop
 declare -A BU_PRIVATE
 #BU_PRIVATE[buku]="~/.local/share/buku/"
@@ -61,7 +61,7 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[metabase]="/opt/metabase/"
 
 #### Public Backup Array ####
-# Create a link to all locations that need to be copied offsite.
+# Create a link to all locations that need to be copied offsite to a publicly accessible location.
 # Uncomment the lines that apply to this server/desktop
 declare -A BU_PUBLIC
 #BU_PUBLIC[backup-public]="~/chuboe-backup-public"
