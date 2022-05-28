@@ -31,12 +31,12 @@ mkdir -p $PATH_LOCAL_PRIVATE
 PATH_LOCAL_PUBLIC=~/chuboe-system-backup/public
 mkdir -p $PATH_LOCAL_PUBLIC
 
-# Create home directories to keep general purpose private files
+# Create home directory to keep general purpose private files
 # Users can add files to these locations at any point in the future
 PATH_GENERAL_PURPOSE_PRIVATE="~/chuboe-keep-private/"
 mkdir -p $PATH_GENERAL_PURPOSE_PRIVATE
 
-# Create home directories to keep general purpose public files
+# Create home directory to keep general purpose public files
 # Users can add files to these locations at any point in the future
 PATH_GENERAL_PURPOSE_PUBLIC="~/chuboe-keep-public/"
 mkdir -p $PATH_GENERAL_PURPOSE_PUBLIC
@@ -74,12 +74,12 @@ BU_PRIVATE[metabase]="/opt/metabase/"
 declare -A BU_PUBLIC
 BU_PUBLIC[keep-public]="$PATH_GENERAL_PURPOSE_PUBLIC"
 
-# example - deleteme
-LNS_SOURCE=
-LNS_TARGET="$PATH_LOCAL_PRIVATE/buku"
-if [ ! -L "$LNS_TARGET" ]; then
-    ln -s ~/.local/share/buku/ $PATH_LOCAL_PRIVATE/buku
-fi
+#### example - deleteme ####
+#LNS_SOURCE=
+#LNS_TARGET="$PATH_LOCAL_PRIVATE/buku"
+#if [ ! -L "$LNS_TARGET" ]; then
+#    ln -s ~/.local/share/buku/ $PATH_LOCAL_PRIVATE/buku
+#fi
 
 #### backup private rsync ####
 
