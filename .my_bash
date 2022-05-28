@@ -41,8 +41,9 @@ alias hgco="hg commit -m "
 alias gp="git pull  "
 alias gpu="git push -u origin main "
 alias gst="git status "
-alias gc="git commit -m "
 alias ga="git add . "
+alias gc="git commit -m "
+alias gac="git commit -am "
 
 # TMUX helpers
 ta() {
