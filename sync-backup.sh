@@ -26,9 +26,9 @@
 BU_REMOTE_NAME=chuboe-sand-01
 
 # Create a local consolidation point where we will create a collection of symbolic links
-PATH_LOCAL_PRIVATE=~/chuboe-system-backup/private
+PATH_LOCAL_PRIVATE="~/chuboe-system-backup/private"
 mkdir -p $PATH_LOCAL_PRIVATE
-PATH_LOCAL_PUBLIC=~/chuboe-system-backup/public
+PATH_LOCAL_PUBLIC="~/chuboe-system-backup/public"
 mkdir -p $PATH_LOCAL_PUBLIC
 
 # Create home directory to keep general purpose private files

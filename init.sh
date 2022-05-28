@@ -35,8 +35,6 @@ then
     echo source \~/chuboe-system-configurator/.my_bash >> ~/.bashrc
 fi
 
-source .my_bash
-
 mkdir -p ~/chuboe-system-backup/
 cp sync-backup.sh ~/chuboe-system-backup/.
 
