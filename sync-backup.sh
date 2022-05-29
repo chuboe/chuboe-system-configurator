@@ -57,8 +57,8 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[id-utils]="/opt/idempiere-server/utils/"
 #BU_PRIVATE[backup-private]=~/chuboe-backup-private
 #BU_PRIVATE[chuboe-utils]="/opt/chuboe/idempiere-installation-script/utils/"
-#BU_PRIVATE[chuboe-backup-archive]="/opt/chuboe/idempiere-installation-script/chuboe_backup/archive/"
-#BU_PRIVATE[chuboe-backup-latest]="/opt/chuboe/idempiere-installation-script/chuboe_backup/latest/"
+#BU_PRIVATE[chuboe-id-backup-archive]="/opt/chuboe/idempiere-installation-script/chuboe_backup/archive/"
+#BU_PRIVATE[chuboe-id-backup-latest]="/opt/chuboe/idempiere-installation-script/chuboe_backup/latest/"
 #BU_PRIVATE[metabase]="/opt/metabase/"
 #BU_PRIVATE[sql]=~/sql/
 #BU_PRIVATE[postgres-config]="/etc/postgresql/12/main/"
