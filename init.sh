@@ -35,8 +35,15 @@ then
     echo source \~/chuboe-system-configurator/.my_bash >> ~/.bashrc
 fi
 
-mkdir -p ~/chuboe-system-backup/
-cp sync-backup.sh ~/chuboe-system-backup/.
+# create and copy over backup artifacts
+FILE=~/chuboe-system-backup/sync-backup.sh
+if [[ -f "$FILE" ]]; then
+    echo "$FILE exists... skipping..."
+else
+	mkdir -p ~/chuboe-system-backup/
+	cp sync-backup.sh ~/chuboe-system-backup/.
+fi
+
 
 ### system stats ###
 # execute this file if you wish the system to automatically collect statistics
