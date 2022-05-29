@@ -49,9 +49,9 @@ AWS_BU_BUCKET_PATH=s3://bucketName/some/path/
 # Create a link to all locations that need to be copied offsite to a private location.
 # Uncomment the lines that apply to this server/desktop
 declare -A BU_PRIVATE
-#BU_PRIVATE[buku]="~/.local/share/buku/"
-#BU_PRIVATE[jrnl]="~/.local/share/jrnl/"
-#BU_PRIVATE[jrnl-config]="~/.config/jrnl/"
+#BU_PRIVATE[buku]=~/.local/share/buku/
+#BU_PRIVATE[jrnl]=~/.local/share/jrnl/
+#BU_PRIVATE[jrnl-config]=~/.config/jrnl/
 #BU_PRIVATE[id-all]="/opt/idempiere-server/"
 #BU_PRIVATE[id-log]="/opt/idempiere-server/log/"
 #BU_PRIVATE[id-utils]="/opt/idempiere-server/utils/"
@@ -61,6 +61,8 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[chuboe-backup-archive]="/opt/chuboe/idempiere-installation-script/chuboe_backup/archive/"
 #BU_PRIVATE[chuboe-backup-latest]="/opt/chuboe/idempiere-installation-script/chuboe_backup/latest/"
 #BU_PRIVATE[metabase]="/opt/metabase/"
+#BU_PRIVATE[postgres-config]="/etc/postgresql/12/main/"
+#BU_PRIVATE[sync-backup.sh]=~/chuboe-system-backup/sync-backup.sh
 
 
 #### Public Backup Array ####
@@ -84,7 +86,7 @@ done
 
 #### Backup Private via Rsync ####
 ssh $RSYNC_BU_USER@$RSYNC_BU_URL mkdir -p $RSYNC_BU_PATH
-rsync -rptgoDL $PATH_LOCAL_PRIVATE/ $RSYNC_BU_USER@$RSYNC_BU_URL:$RSYNC_BU_PATH
+sudo rsync -rptgoDL --delete $PATH_LOCAL_PRIVATE/ $RSYNC_BU_USER@$RSYNC_BU_URL:$RSYNC_BU_PATH
 
 #Note: if you need to use a pem, things get more interesting with rsync in a script. Here is an example. You need to use the 'eval' command to get the quotations to work
 #SC_SSH_PEM_RSYNC="-e \"ssh $SC_SSH_PEM\""
