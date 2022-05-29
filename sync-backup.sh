@@ -117,3 +117,26 @@ done
 #### Backup Public via AWS ####
 # uncomment if needed
 #aws s3 sync $PATH_LOCAL_PUBLIC/ $AWS_BU_BUCKET_PATH
+
+#### Help Instructions ####
+echo
+echo "****"
+echo Help Instructions: Allow access without entering a password
+echo "****"
+echo "To create your first local key for YOUR user:"
+echo "ssh-keygen "
+echo "Note: do not overwrite an existing key"
+echo "****"
+echo "To create your first local key for the ROOT user:"
+echo "sudo ssh-keygen"
+echo "Note: root access is needed because we issue \"sudo rsync\" to ensure we can see all files"
+echo "Note: do not overwrite an existing key"
+echo "****"
+echo To upload your first local key to rsync.net:
+echo "scp ~/.ssh/id_rsa.pub $RSYNC_BU_USER@$RSYNC_BU_URL:.ssh/authorized_keys"
+echo To upload your additional keys to rsync.net:
+echo "cat ~/.ssh/id_rsa.pub | ssh $RSYNC_BU_USER@$RSYNC_BU_URL 'dd of=.ssh/authorized_keys oflag=append conv=notrunc'"
+echo "****"
+echo To upload the root key to rsync.net:
+echo "sudo cat /root/.ssh/id_rsa.pub | ssh $RSYNC_BU_USER@$RSYNC_BU_URL 'dd of=.ssh/authorized_keys oflag=append conv=notrunc'"
+echo "****"
