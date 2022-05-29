@@ -56,7 +56,7 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[id-log]="/opt/idempiere-server/log/"
 #BU_PRIVATE[id-utils]="/opt/idempiere-server/utils/"
 #BU_PRIVATE[sql]="~/sql/"
-#BU_PRIVATE[backup-private]="~/chuboe-backup-private"
+#BU_PRIVATE[backup-private]=~/chuboe-backup-private
 #BU_PRIVATE[chuboe-utils]="/opt/chuboe/idempiere-installation-script/utils/"
 #BU_PRIVATE[chuboe-backup-archive]="/opt/chuboe/idempiere-installation-script/chuboe_backup/archive/"
 #BU_PRIVATE[chuboe-backup-latest]="/opt/chuboe/idempiere-installation-script/chuboe_backup/latest/"
@@ -67,7 +67,7 @@ declare -A BU_PRIVATE
 # Create a link to all locations that need to be copied offsite to a publicly accessible location.
 # Uncomment the lines that apply to this server/desktop
 declare -A BU_PUBLIC
-#BU_PUBLIC[backup-public]="~/chuboe-backup-public"
+#BU_PUBLIC[backup-public]=~/chuboe-backup-public
 
 
 #### Create Private Links ####
