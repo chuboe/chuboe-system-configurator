@@ -42,6 +42,7 @@ if [[ -f "$FILE" ]]; then
 else
 	mkdir -p ~/chuboe-system-backup/
 	cp sync-backup.sh ~/chuboe-system-backup/.
+	cp chuboe-system-backup-cron ~/chuboe-system-backup/.
 fi
 
 
