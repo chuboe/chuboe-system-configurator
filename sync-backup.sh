@@ -33,8 +33,8 @@ mkdir -p $PATH_LOCAL_PUBLIC
 
 #ACTION
 # Name the remote rsync service
-RSYNC_BU_USER=SomeUser
-RSYNC_BU_URL=some.url.com
+RSYNC_BU_USER=SomeRsyncUser
+RSYNC_BU_URL=SomeRsyncUser.rsync.net
 RSYNC_BU_PATH=$BU_REMOTE_NAME/backup
 
 #ACTION
