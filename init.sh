@@ -43,6 +43,8 @@ else
 	mkdir -p ~/chuboe-system-backup/
 	cp sync-backup.sh ~/chuboe-system-backup/.
 	cp chuboe-system-backup-cron ~/chuboe-system-backup/.
+    # Draft a last update version to prevent the first rsync from failing
+    touch ~/chuboe-system-backup/sync-lastupdate.txt
 fi
 
 
