@@ -66,6 +66,8 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[sync-backup.sh]=~/chuboe-system-backup/sync-backup.sh
 #BU_PRIVATE[sync-lastupdate.txt]=~/chuboe-system-backup/sync-lastupdate.txt
 
+# Draft a last update version to prevent the first rsync from failing
+echo $(date) > sync-lastupdate.txt
 
 #### Public Backup Array ####
 # Create a link to all locations that need to be copied offsite to a publicly accessible location.
