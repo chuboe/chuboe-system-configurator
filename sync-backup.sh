@@ -55,6 +55,11 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[id-all]="/opt/idempiere-server/"
 #BU_PRIVATE[id-log]="/opt/idempiere-server/log/"
 #BU_PRIVATE[id-utils]="/opt/idempiere-server/utils/"
+#BU_PRIVATE[id-attach]="/opt/idempiere-attach/"
+#BU_PRIVATE[id-archive]="/opt/idempiere-archive/"
+#BU_PRIVATE[id-image]="/opt/idempiere-image/"
+#BU_PRIVATE[id-dms-content]="/opt/DMS_Content/"
+#BU_PRIVATE[id-dms-thumbnail]="/opt/DMS_Thumbnails/"
 #BU_PRIVATE[backup-private]=~/chuboe-backup-private
 #BU_PRIVATE[chuboe-utils]="/opt/chuboe/idempiere-installation-script/utils/"
 #BU_PRIVATE[chuboe-id-backup-archive]="/opt/chuboe/idempiere-installation-script/chuboe_backup/archive/"
