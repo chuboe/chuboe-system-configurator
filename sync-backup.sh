@@ -10,8 +10,8 @@
 # By maintaining multiple sub-directories (private/public), you can use a different backup strategy for each directory
 
 # Minimal Instuctions
-# 1. Fill out each of the arrays (private and public)
-# 2. Comment out any pre-existing path/object that does not apply to your application
+# 1. Fill out each of the arrays (private [BU_PRIVATE] and public [BU_PUBLIC])
+# 2. Un-comment any pre-existing paths/objects that apply to your application
 # 3. Search on the world ACTION and complete the necessary steps
 
 # Automated execution
