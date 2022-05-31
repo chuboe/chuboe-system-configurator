@@ -39,3 +39,8 @@ To quit out of a session (bash or tmux), simply type 'q'. If you are in a tmux s
 Any bash statements you wish to keep local to a given server, add to file named .bash_this_server in the ~/chuboe-system-configurator/ directory. An example of something you would add to .bash_this_server:
 
 * THIS_SERVER_HOST=' -h 10.100.2.99'
+
+## Backup
+
+* This repo includes a backup script to store common artifacts off-site.
+* See sync-backup.sh for details and usage
