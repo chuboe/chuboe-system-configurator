@@ -68,6 +68,7 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[sql]=~/sql/
 #BU_PRIVATE[postgres-config]="/etc/postgresql/12/main/"
 #BU_PRIVATE[postgres-history]=~/.psql_history.d/
+#BU_PRIVATE[tmux-save]=~/.tmux-save/
 BU_PRIVATE[sync-backup.sh]=~/chuboe-system-backup/sync-backup.sh
 BU_PRIVATE[sync-lastupdate.txt]=~/chuboe-system-backup/sync-lastupdate.txt
 
