@@ -4,7 +4,7 @@
 # Make sure the below user and path is correct. It is currently set to ubuntu.
 
 # Run a backup just after midnight
-5 1 * * * ubuntu cd /home/ubuntu/chuboe-system-backup && echo $(date) > sync-lastupdate.txt && sync-backup.sh > /dev/null 2>&1
+5 1 * * * ubuntu cd /home/ubuntu/chuboe-system-backup && echo $(date) > sync-lastupdate.txt && ./sync-backup.sh > /dev/null 2>&1
 
 # Sample cron to help debug if issues. Runs every hour.
 # * * * * * ubuntu echo "here..." >> /home/ubuntu/here.txt
