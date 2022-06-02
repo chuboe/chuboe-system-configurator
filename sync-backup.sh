@@ -70,7 +70,7 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[postgres-history]=~/.psql_history.d/
 #BU_PRIVATE[tmux-save]=~/.tmux-save/
 #BU_PRIVATE[cron-d]=/etc/cron.d/
-#BU_PRIVATE[crontab]=/etc/crontab/
+#BU_PRIVATE[crontab]=/etc/crontab
 BU_PRIVATE[sync-backup.sh]=~/chuboe-system-backup/sync-backup.sh
 BU_PRIVATE[sync-lastupdate.txt]=~/chuboe-system-backup/sync-lastupdate.txt
 
