@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 
 
 #### Summary ####
@@ -71,7 +71,7 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[tmux-save]=~/.tmux-save/
 #BU_PRIVATE[cron-d]=/etc/cron.d/
 #BU_PRIVATE[crontab]=/etc/crontab
-#BU_PRIVATE[haproxy-config]=/etc/haproxy/haproxy.cfg
+#BU_PRIVATE[haproxy.cfg]=/etc/haproxy/haproxy.cfg
 #BU_PRIVATE[apache-config]=/etc/apache2/
 #BU_PRIVATE[ssl-certs]=/etc/ssl/certs/
 BU_PRIVATE[sync-backup.sh]=~/chuboe-system-backup/sync-backup.sh
