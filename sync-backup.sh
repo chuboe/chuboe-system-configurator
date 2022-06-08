@@ -70,6 +70,8 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[sql]=~/sql/
 #BU_PRIVATE[postgres-config]="/etc/postgresql/12/main/"
 #BU_PRIVATE[postgres-history]=~/.psql_history.d/
+#BU_PRIVATE[postgres-log-start]=/var/log/postgresql/
+#BU_PRIVATE[postgres-log-query]=/var/lib/postgresql/12/main/log/
 #BU_PRIVATE[tmux-save]=~/.tmux-save/
 #BU_PRIVATE[cron-d]=/etc/cron.d/
 #BU_PRIVATE[crontab]=/etc/crontab
