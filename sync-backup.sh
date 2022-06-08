@@ -96,7 +96,7 @@ for key in "${!BU_PRIVATE[@]}"; do
 	LNS_SOURCE=${BU_PRIVATE[$key]}
 	LNS_TARGET="$PATH_LOCAL_PRIVATE/$key"
 	if [ ! -L "$LNS_TARGET" ]; then
-		ln -s $LNS_SOURCE $LNS_TARGET
+		sudo ln -s $LNS_SOURCE $LNS_TARGET
 	fi
 done
 
@@ -121,7 +121,7 @@ for key in "${!BU_PUBLIC[@]}"; do
 	LNS_SOURCE=${BU_PUBLIC[$key]}
 	LNS_TARGET="$PATH_LOCAL_PUBLIC/$key"
 	if [ ! -L "$LNS_TARGET" ]; then
-		ln -s $LNS_SOURCE $LNS_TARGET
+		sudo ln -s $LNS_SOURCE $LNS_TARGET
 	fi
 done
 
