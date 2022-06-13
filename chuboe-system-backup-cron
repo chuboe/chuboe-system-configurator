@@ -6,5 +6,8 @@
 # Run a backup just after midnight
 5 1 * * * ubuntu cd /home/ubuntu/chuboe-system-backup && echo $(date) > sync-lastupdate.txt && ./sync-backup.sh > /dev/null 2>&1
 
+# Example using psql to export data and tee and date stamp the output - note: percent signs are escaped
+# 10 */4 * * * ubuntu /usr/bin/psql -U adempiere -d idempiere -f /home/ubuntu/sql/sync_status_last_syncdate_per_table.sql | sudo -u idempiere /usr/bin/tee /opt/idempiere-server/log/sync_`date +\%Y\%m\%d`_`date +\%H\%M\%S`.txt
+
 # Sample cron to help debug if issues. Runs every hour.
 # * * * * * ubuntu echo "here..." >> /home/ubuntu/here.txt
