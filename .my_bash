@@ -40,6 +40,7 @@ alias hgco="hg commit -m "
 # create hg pull -u alias
 alias gp="git pull  "
 alias gpu="git push -u origin main "
+alias gpu_master="git push -u origin master "
 alias gst="git status "
 alias ga="git add . "
 alias gc="git commit -m "
