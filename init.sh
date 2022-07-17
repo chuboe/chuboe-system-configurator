@@ -4,11 +4,7 @@
 # - create symbolic links to .psqlrc and inputrc
 
 sudo apt update
-<<<<<<< HEAD
-sudo apt install -y vim git tree tmux fd-find wget sysstat curl
-=======
-sudo apt install -y vim git tree tmux fd-find wget sysstat ufw
->>>>>>> 0bfa434540798b265308ef392b094c5c11bc0377
+sudo apt install -y vim git tree tmux fd-find wget sysstat curl ufw
 
 # if you want to update the below files, add anything to the ./init.sh. Example: ./init.sh REDO
 
