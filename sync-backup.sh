@@ -49,9 +49,11 @@ AWS_BU_BUCKET_PATH=s3://bucketName/some/path/
 # Create a link to all locations that need to be copied offsite to a private location.
 # Uncomment the lines that apply to this server/desktop
 declare -A BU_PRIVATE
+#BU_PRIVATE[Passwords.kdbx]=~/Passwords.kdbx
 #BU_PRIVATE[buku]=~/.local/share/buku/
 #BU_PRIVATE[jrnl]=~/.local/share/jrnl/
 #BU_PRIVATE[jrnl-config]=~/.config/jrnl/
+#BU_PRIVATE[ssh]=~/.ssh/
 #BU_PRIVATE[id-all]="/opt/idempiere-server/"
 #BU_PRIVATE[id-log]="/opt/idempiere-server/log/"
 #BU_PRIVATE[id-utils]="/opt/idempiere-server/utils/"
@@ -68,6 +70,8 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[sql]=~/sql/
 #BU_PRIVATE[postgres-config]="/etc/postgresql/12/main/"
 #BU_PRIVATE[postgres-history]=~/.psql_history.d/
+#BU_PRIVATE[postgres-log-start]=/var/log/postgresql/
+#BU_PRIVATE[postgres-log-query]=/var/lib/postgresql/12/main/log/
 #BU_PRIVATE[tmux-save]=~/.tmux-save/
 #BU_PRIVATE[cron-d]=/etc/cron.d/
 #BU_PRIVATE[crontab]=/etc/crontab
@@ -92,7 +96,7 @@ for key in "${!BU_PRIVATE[@]}"; do
 	LNS_SOURCE=${BU_PRIVATE[$key]}
 	LNS_TARGET="$PATH_LOCAL_PRIVATE/$key"
 	if [ ! -L "$LNS_TARGET" ]; then
-		ln -s $LNS_SOURCE $LNS_TARGET
+		sudo ln -s $LNS_SOURCE $LNS_TARGET
 	fi
 done
 
@@ -117,7 +121,7 @@ for key in "${!BU_PUBLIC[@]}"; do
 	LNS_SOURCE=${BU_PUBLIC[$key]}
 	LNS_TARGET="$PATH_LOCAL_PUBLIC/$key"
 	if [ ! -L "$LNS_TARGET" ]; then
-		ln -s $LNS_SOURCE $LNS_TARGET
+		sudo ln -s $LNS_SOURCE $LNS_TARGET
 	fi
 done
 
