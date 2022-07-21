@@ -81,14 +81,9 @@ declare -A BU_PRIVATE
 BU_PRIVATE[sync-backup.sh]=~/chuboe-system-backup/sync-backup.sh
 BU_PRIVATE[sync-lastupdate.txt]=~/chuboe-system-backup/sync-lastupdate.txt
 
+#### created for convenience ####
 #mkdir -p ~/sql/
-#sudo mkdir -p /opt/idempiere-server/
-#sudo mkdir -p /opt/idempiere-archive/
-#sudo mkdir -p /opt/idempiere-image/
-#sudo mkdir -p /opt/DMS_Content/
-#sudo mkdir -p /opt/DMS_Thumbnails/
 #mkdir -p ~/chuboe-backup-private
-
 
 #### Public Backup Array ####
 # Create a link to all locations that need to be copied offsite to a publicly accessible location.
