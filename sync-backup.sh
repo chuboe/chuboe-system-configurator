@@ -68,10 +68,10 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[chuboe-id-backup-latest]="/opt/chuboe/idempiere-installation-script/chuboe_backup/latest/"
 #BU_PRIVATE[metabase]="/opt/metabase/"
 #BU_PRIVATE[sql]=~/sql/
-#BU_PRIVATE[postgres-config]="/etc/postgresql/12/main/"
+#BU_PRIVATE[postgres-config]="/etc/postgresql/14/main/"
 #BU_PRIVATE[postgres-history]=~/.psql_history.d/
 #BU_PRIVATE[postgres-log-start]=/var/log/postgresql/
-#BU_PRIVATE[postgres-log-query]=/var/lib/postgresql/12/main/log/
+#BU_PRIVATE[postgres-log-query]=/var/lib/postgresql/14/main/log/
 #BU_PRIVATE[tmux-save]=~/.tmux-save/
 #BU_PRIVATE[cron-d]=/etc/cron.d/
 #BU_PRIVATE[crontab]=/etc/crontab
@@ -80,6 +80,14 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[ssl-certs]=/etc/ssl/certs/
 BU_PRIVATE[sync-backup.sh]=~/chuboe-system-backup/sync-backup.sh
 BU_PRIVATE[sync-lastupdate.txt]=~/chuboe-system-backup/sync-lastupdate.txt
+
+#mkdir -p ~/sql/
+#sudo mkdir -p /opt/idempiere-server/
+#sudo mkdir -p /opt/idempiere-archive/
+#sudo mkdir -p /opt/idempiere-image/
+#sudo mkdir -p /opt/DMS_Content/
+#sudo mkdir -p /opt/DMS_Thumbnails/
+#mkdir -p ~/chuboe-backup-private
 
 
 #### Public Backup Array ####
