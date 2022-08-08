@@ -53,6 +53,7 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[buku]=~/.local/share/buku/
 #BU_PRIVATE[jrnl]=~/.local/share/jrnl/
 #BU_PRIVATE[jrnl-config]=~/.config/jrnl/
+#BU_PRIVATE[bash-history]=~/.bash_history
 #BU_PRIVATE[ssh]=~/.ssh/
 #BU_PRIVATE[id-all]="/opt/idempiere-server/"
 #BU_PRIVATE[id-log]="/opt/idempiere-server/log/"
@@ -140,7 +141,7 @@ done
 #### Help Instructions ####
 echo
 echo "****"
-echo Help Instructions: Allow access without entering a password
+echo rsync.net help instructions: Allow access to rsync.net without entering a password
 echo "****"
 echo "To create your first local key for YOUR user:"
 echo "ssh-keygen "
