@@ -1,3 +1,7 @@
+# write commands to history immediately
+shopt -s histappend
+PROMPT_COMMAND='history -a;history -n'
+
 # source project details
 FILE=~/chuboe-system-configurator/.bash_this_server
 if [ -f "$FILE" ]; then
