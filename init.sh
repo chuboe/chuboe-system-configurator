@@ -57,3 +57,7 @@ fi
 # usage after enabled:
 # see files: ls -l /var/log/sysstat/
 # see statistics for 26th of month: sudo sar -u -f /var/log/sysstat/sa26
+
+echo "Common next steps"
+echo "*** change host name:"
+echo "sudo hostnamectl set-hostname XXX"
