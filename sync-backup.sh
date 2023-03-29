@@ -55,6 +55,7 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[jrnl-config]=~/.config/jrnl/
 #BU_PRIVATE[bash-history]=~/.bash_history
 #BU_PRIVATE[ssh]=~/.ssh/
+#BU_PRIVATE[aws]=~/.aws/
 #BU_PRIVATE[id-all]="/opt/idempiere-server/"
 #BU_PRIVATE[id-log]="/opt/idempiere-server/log/"
 #BU_PRIVATE[id-utils]="/opt/idempiere-server/utils/"
