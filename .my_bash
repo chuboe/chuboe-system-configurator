@@ -69,6 +69,12 @@ alias t-save="tmux capture-pane -pS -100000 &> "
 # write tmux current screen to file
 alias t-snap="tmux capture-pane -p &> "
 
+# tmux list sessions
+alias t-list="tmux list-sessions"
+
+# disconnect
+# ctrl+space d
+
 # common cd commands
 alias cdoc="cd /opt/chuboe/idempiere-installation-script/"
 alias cdocb="cd /opt/chuboe/idempiere-installation-script/chuboe_backup/"
