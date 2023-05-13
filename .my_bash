@@ -117,6 +117,9 @@ alias bt="buku --stag"
 # search - regex
 alias bs="buku -r"
 
+# delete
+alias bd="buku --delete"
+
 # help
 alias csc="vim ~/chuboe-system-configurator/.my_bash"
 
