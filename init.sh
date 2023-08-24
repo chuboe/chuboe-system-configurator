@@ -35,11 +35,13 @@ then
 fi
 
 mkdir -p ~/.psql_history.d
+mkdir -p ~/.config/
 cp my_configs.vim ~/.vim_runtime/.
 cp .psqlrc ~/.
 cp .inputrc ~/.
 cp .alacritty.yml ~/.
 cp .tmux.conf ~/.
+cp starship.toml ~/.config/starship.toml
 
 # https://tmuxcheatsheet.com
 
