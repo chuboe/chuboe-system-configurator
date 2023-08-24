@@ -31,7 +31,6 @@ then
     # install starship prompt
     echo HERE install starship
     cargo install starship --locked
-    starship config container.disabled true
 fi
 
 mkdir -p ~/.psql_history.d
@@ -52,6 +51,8 @@ then
     # starship init => must be last in file
     echo 'eval "$(starship init bash)"' | tee -a ~/.bashrc
     source ~/.bashrc
+    # remove systemd message in prompt
+    starship config container.disabled true
 fi
 
 # create and copy over backup artifacts
