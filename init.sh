@@ -11,23 +11,28 @@ sudo apt install -y man vim git tree tmux fd-find wget sysstat curl ufw rsync zi
 if [[ $1 == "" ]]
 then
     # install vim awesome as base
+    echo HERE install vim-awesome
     git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
     sh ~/.vim_runtime/install_awesome_vimrc.sh
 
     # install tmux plugin manager
+    echo HERE install tmux plugin manager
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
     # install rust eco system
+    echo HERE install rust eco
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     source ~/.bashrc
 
     # install starship prompt
+    echo HERE install starship
     cargo install starship --locked
     echo 'eval "$(starship init bash)"' | tee -a ~/.bashrc
     source ~/.bashrc
     starship config container.disabled true
     
     # install nushell
+    echo HERE install nushell
     cargo install nu --locked
 fi
 
