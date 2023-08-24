@@ -22,7 +22,7 @@ then
     # install rust eco system
     echo HERE install rust eco
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-    source ~/.bashrc
+    source "$HOME/.cargo/env"
 
     # install starship prompt
     echo HERE install starship
