@@ -4,7 +4,7 @@
 # - create symbolic links to .psqlrc and inputrc
 
 sudo apt update
-sudo apt install -y man vim git tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config
+sudo apt install -y man vim git tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake
 
 # if you want to update the below files, add anything to the ./init.sh. Example: ./init.sh REDO
 
@@ -16,6 +16,19 @@ then
 
     # install tmux plugin manager
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+    # install rust eco system
+    curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
+    source ~/.bashrc
+
+    # install starship prompt
+    cargo install starship --locked
+    echo 'eval "$(starship init bash)"' | tee -a ~/.bashrc
+    source ~/.bashrc
+    starship config container.disabled true
+    
+    # install nushell
+    cargo install nu --locked
 fi
 
 mkdir -p ~/.psql_history.d
