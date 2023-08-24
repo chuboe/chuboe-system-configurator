@@ -23,17 +23,15 @@ then
     echo HERE install rust eco
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     source "$HOME/.cargo/env"
-
-    # install starship prompt
-    echo HERE install starship
-    cargo install starship --locked
-    echo 'eval "$(starship init bash)"' | tee -a ~/.bashrc
-    source ~/.bashrc
-    starship config container.disabled true
     
     # install nushell
     echo HERE install nushell
     cargo install nu --locked
+
+    # install starship prompt
+    echo HERE install starship
+    cargo install starship --locked
+    starship config container.disabled true
 fi
 
 mkdir -p ~/.psql_history.d
@@ -48,6 +46,9 @@ cp .tmux.conf ~/.
 if [[ $1 == "" ]]
 then
     echo source \~/chuboe-system-configurator/.my_bash >> ~/.bashrc
+    # starship init => must be last in file
+    echo 'eval "$(starship init bash)"' | tee -a ~/.bashrc
+    source ~/.bashrc
 fi
 
 # create and copy over backup artifacts
