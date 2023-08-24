@@ -16,9 +16,6 @@ then
 
     # install tmux plugin manager
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-
-    # install cheatsheet command line tool
-    sudo snap install cheat
 fi
 
 mkdir -p ~/.psql_history.d
