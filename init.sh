@@ -47,6 +47,7 @@ cp starship.toml ~/.config/starship.toml
 
 if [[ $1 == "" ]]
 then
+    echo HERE update .bashrc
     echo source \~/chuboe-system-configurator/.my_bash >> ~/.bashrc
     # starship init => must be last in file
     echo 'eval "$(starship init bash)"' | tee -a ~/.bashrc
