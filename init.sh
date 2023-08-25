@@ -53,6 +53,12 @@ then
     source ~/.bashrc
     # remove systemd message in prompt
     starship config container.disabled true
+
+    starship init nu | tee -a ~/.cache/starship/init.nu
+    # Use the following command to ask nu to use the same starship prompt.
+    # This must be done after first launch of nu
+    #echo "use ~/.cache/starship/init.nu" | tee -a ~/.config/nushell/config.nu
+
 fi
 
 # create and copy over backup artifacts
