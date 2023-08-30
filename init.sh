@@ -4,7 +4,7 @@
 # - create symbolic links to .psqlrc and inputrc
 
 sudo apt update
-sudo apt install -y man vim git tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev
+sudo apt install -y man vim git tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pip
 
 # if you want to update the below files, add anything to the ./init.sh. Example: ./init.sh REDO
 
@@ -31,6 +31,11 @@ then
     # install starship prompt
     echo HERE install starship
     cargo install starship --locked
+
+    # install jc (python library to convert popular output to json)
+    # useful in nushell, example:
+    # git log | jc --git-log | from json | take 1 | transpos
+    pip install jc
 fi
 
 mkdir -p ~/.psql_history.d
