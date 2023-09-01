@@ -23,10 +23,10 @@ then
     echo HERE install rust eco
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     source "$HOME/.cargo/env"
-    
+
     # install nushell
     echo HERE install nushell
-    cargo install nu --locked
+    cargo install nu --locked --features=dataframe
 
     # install starship prompt
     echo HERE install starship
