@@ -32,6 +32,10 @@ then
     echo HERE install starship
     cargo install starship --locked
 
+    # install zellij (tmux replacement)
+    echo HERE install zellij
+    cargo install zellij --locked
+
     # install jc (python library to convert popular output to json)
     # useful in nushell, example:
     # git log | jc --git-log | from json | take 1 | transpos
@@ -63,6 +67,9 @@ then
     # Use the following command to ask nu to use the same starship prompt.
     # This must be done after first launch of nu
     #echo "use ~/.cache/starship/init.nu" | tee -a ~/.config/nushell/config.nu
+
+    zellij setup --generate-completion bash | tee .zellijrc
+    echo source \~/chuboe-system-configurator/.zellijrc >> ~/.bashrc
 
 fi
 
