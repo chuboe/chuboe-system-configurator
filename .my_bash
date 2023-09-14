@@ -50,6 +50,9 @@ alias ga="git add . "
 alias gc="git commit -m "
 alias gac="git commit -am "
 
+# zellij helpers
+alias z=zellij --session chuck-steak
+
 # TMUX helpers
 ta() {
   history -a
