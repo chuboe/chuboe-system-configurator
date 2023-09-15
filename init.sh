@@ -6,6 +6,10 @@
 sudo apt update
 sudo apt install -y man vim git tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pip
 
+# jc - JSON Convert - converts the output of many CLI tools, file-types, and common strings for easier parsing in scripts.
+# gcc cmake libssl-dev - added for rust toolchain
+# pip for python development/tools
+
 # if you want to update the below files, add anything to the ./init.sh. Example: ./init.sh REDO
 
 if [[ $1 == "" ]]
