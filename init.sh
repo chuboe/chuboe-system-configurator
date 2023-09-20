@@ -28,6 +28,28 @@ then
     curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
     source "$HOME/.cargo/env"
 
+    # copy over bin
+    cp bin-rust/* ~/.cargo/bin/.
+
+    # install jc (python library to convert popular output to json)
+    # useful in nushell, example:
+    # git log | jc --git-log | from json | take 1 | transpos
+    pip install jc
+
+    mkdir -p ~/.psql_history.d
+    mkdir -p ~/.config/
+    cp my_configs.vim ~/.vim_runtime/.
+    cp .psqlrc ~/.
+    cp .inputrc ~/.
+    cp .alacritty.yml ~/.
+    cp .tmux.conf ~/.
+    cp starship.toml ~/.config/starship.toml
+fi
+
+if [[ $1 == "recompile" ]]
+then
+    # the following will add the updated binaries in the ~/.cargo/bin
+
     # install nushell
     echo HERE install nushell
     cargo install nu --locked --features=dataframe
@@ -40,22 +62,7 @@ then
     echo HERE install zellij
     cargo install zellij --locked
 
-    # install jc (python library to convert popular output to json)
-    # useful in nushell, example:
-    # git log | jc --git-log | from json | take 1 | transpos
-    pip install jc
 fi
-
-mkdir -p ~/.psql_history.d
-mkdir -p ~/.config/
-cp my_configs.vim ~/.vim_runtime/.
-cp .psqlrc ~/.
-cp .inputrc ~/.
-cp .alacritty.yml ~/.
-cp .tmux.conf ~/.
-cp starship.toml ~/.config/starship.toml
-
-# https://tmuxcheatsheet.com
 
 if [[ $1 == "" ]]
 then
@@ -67,7 +74,7 @@ then
     # remove systemd message in prompt
     starship config container.disabled true
 
-    starship init nu | tee -a ~/.cache/starship/init.nu
+    starship init nu | save -f ~/.cache/starship/init.nu
     # Use the following command to ask nu to use the same starship prompt.
     # This must be done after first launch of nu
     #echo "use ~/.cache/starship/init.nu" | tee -a ~/.config/nushell/config.nu
