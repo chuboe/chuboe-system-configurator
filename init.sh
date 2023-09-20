@@ -35,6 +35,9 @@ then
     mkdir -p ~/.config/nushell
     cp defaults_nu/* ~/.config/nushell/.
 
+    # create nushell aliases
+    cat alias_nu.txt | tee -a ~/.config/nushell/config.nu
+
     # install jc (python library to convert popular output to json)
     # useful in nushell, example:
     # git log | jc --git-log | from json | take 1 | transpos
