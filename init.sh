@@ -31,6 +31,10 @@ then
     # copy over bin
     cp bin-rust/* ~/.cargo/bin/.
 
+    # copy over nushell defaults
+    mkdir -p ~/.config/nushell
+    cp defaults_nu/* ~/.config/nushell/.
+
     # install jc (python library to convert popular output to json)
     # useful in nushell, example:
     # git log | jc --git-log | from json | take 1 | transpos
@@ -49,6 +53,9 @@ fi
 if [[ $1 == "recompile" ]]
 then
     # the following will add the updated binaries in the ~/.cargo/bin
+    echo "Remember: download latest nu config files when rebuilding binaries"
+    # wget https://raw.githubusercontent.com/nushell/nushell/main/crates/nu-utils/src/sample_config/default_env.nu -O env.nu
+    # wget https://raw.githubusercontent.com/nushell/nushell/main/crates/nu-utils/src/sample_config/default_config.nu -O config.nu
 
     # install nushell
     echo HERE install nushell
@@ -74,10 +81,9 @@ then
     # remove systemd message in prompt
     starship config container.disabled true
 
+    # add starship to nu
     starship init nu | tee -a ~/.cache/starship/init.nu
-    # Use the following command to ask nu to use the same starship prompt.
-    # This must be done after first launch of nu
-    #echo "use ~/.cache/starship/init.nu" | tee -a ~/.config/nushell/config.nu
+    echo "use ~/.cache/starship/init.nu" | tee -a ~/.config/nushell/config.nu
 
     zellij setup --generate-completion bash | tee .zellijrc
     echo source \~/chuboe-system-configurator/.zellijrc >> ~/.bashrc
