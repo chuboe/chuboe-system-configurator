@@ -20,3 +20,7 @@
 
 # push psql startup logs to aws for developers - delete local entries older than 10 days
 # 25 4 * * * root /usr/local/bin/aws s3 sync /var/log/postgresql/ s3://custname-idempiere-obfuscate/database/log/start/ && find /var/log/postgresql/. -mtime +10 -type f -delete
+
+# Only keep last 5 backups - delete others.
+# Note: while this ensures you do not build up lots of backups (hogging space), this does not ensure the backups are valid
+# 20 07 * * * chuboe cd /opt/chuboe/db_backup/archive/; ls -1tr  Exp* | head -n -5 | xargs -d  '\n' rm -f -- > /dev/null 2>&1
