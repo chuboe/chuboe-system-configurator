@@ -6,8 +6,17 @@
 # Run a backup just after midnight
 5 1 * * * ubuntu cd /home/ubuntu/chuboe-system-backup && echo $(date) > sync-lastupdate.txt && ./sync-backup.sh > /dev/null 2>&1
 
-# Example using psql to export data and tee and date stamp the output - note: percent signs are escaped
+# General example using psql to export data and tee and date stamp the output - note: percent signs are escaped
+# Specific example used for monitoring logilite syncing where file simply selects last update time per table
 # 10 */4 * * * ubuntu /usr/bin/psql -U adempiere -d idempiere -f /home/ubuntu/sql/sync_status_last_syncdate_per_table.sql | sudo -u idempiere /usr/bin/tee /opt/idempiere-server/log/sync_`date +\%Y\%m\%d`_`date +\%H\%M\%S`.txt
 
 # Sample cron to help debug if issues. Runs every hour.
 # * * * * * ubuntu echo "here..." >> /home/ubuntu/here.txt
+
+## the below entries are for purging local copies of logs and backups
+
+# push psql performance logs to aws for developers - delete local entries older than 10 days
+# 15 4 * * * root /usr/local/bin/aws s3 sync /var/lib/postgresql/15/main/log/ s3://custname-idempiere-obfuscate/database/log/query/ && find /var/lib/postgresql/15/main/log/. -mtime +10 -type f -delete
+
+# push psql startup logs to aws for developers - delete local entries older than 10 days
+# 25 4 * * * root /usr/local/bin/aws s3 sync /var/log/postgresql/ s3://custname-idempiere-obfuscate/database/log/start/ && find /var/log/postgresql/. -mtime +10 -type f -delete
