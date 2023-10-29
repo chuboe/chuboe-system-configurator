@@ -4,7 +4,7 @@
 # - create symbolic links to .psqlrc and inputrc
 
 sudo apt update
-sudo apt install -y man vim git tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pip gpg
+sudo apt install -y man vim git tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pip gpg jc
 
 # jc - JSON Convert - converts the output of many CLI tools, file-types, and common strings for easier parsing in scripts.
 # gcc cmake libssl-dev - added for rust toolchain
@@ -41,7 +41,8 @@ then
     # install jc (python library to convert popular output to json)
     # useful in nushell, example:
     # git log | jc --git-log | from json | take 1 | transpos
-    pip install jc
+    # no longer installed via pip => see apt install above
+        # pip install jc
 
     mkdir -p ~/.psql_history.d
     mkdir -p ~/.config/
