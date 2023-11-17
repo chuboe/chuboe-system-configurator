@@ -33,6 +33,9 @@ export EDITOR=vim
 # :set modifiable write
 alias v="vim -M "
 
+# create ll alias (needed for debian)
+alias ll="ls -l"
+
 # create ll -tr alias
 alias ltr="ll -tr "
 
