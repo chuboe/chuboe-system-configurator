@@ -132,6 +132,9 @@ alias il="incus list"
 ici() {
   incus exec $* -- cloud-init status
 }
+itp() {
+  incus config set $* security.protection.delete true
+}
 
 # help
 alias csc="vim ~/chuboe-system-configurator/.my_bash"
