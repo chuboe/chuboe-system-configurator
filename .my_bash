@@ -135,6 +135,9 @@ ici() {
 itp() {
   incus config set $* security.protection.delete true
 }
+ic() {
+  incus exec $* -- su --login debian
+}
 
 # help
 alias csc="vim ~/chuboe-system-configurator/.my_bash"
