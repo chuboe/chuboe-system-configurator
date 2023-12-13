@@ -126,6 +126,13 @@ alias bs="buku -r"
 # delete
 alias bd="buku --delete"
 
+# incus shortcuts
+alias i="incus"
+alias il="incus list"
+ici() {
+  incus exec $* -- cloud-init status
+}
+
 # help
 alias csc="vim ~/chuboe-system-configurator/.my_bash"
 
