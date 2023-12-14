@@ -129,12 +129,15 @@ alias bd="buku --delete"
 # incus shortcuts
 alias i="incus"
 alias il="incus list"
+# incus cloud init
 ici() {
   incus exec $* -- cloud-init status
 }
+# incus termination protection
 itp() {
   incus config set $* security.protection.delete true
 }
+# incus connect
 ic() {
   incus exec $* -- su --login debian
 }
