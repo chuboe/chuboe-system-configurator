@@ -1,3 +1,6 @@
+# help
+alias csc="vim ~/chuboe-system-configurator/.my_bash"
+
 # write commands to history immediately
 shopt -s histappend
 PROMPT_COMMAND='history -a;history -n'
@@ -15,6 +18,10 @@ set -o vi
 
 # add timestamp to history
 export HISTTIMEFORMAT="%d/%m/%y %T "
+
+# open file from command
+alias o="xdg-open"
+# reference: https://superuser.com/questions/544272/how-to-open-file-with-default-program-from-command-line
 
 # alias for psql assuming iDempiere
 alias psqli="export PAGER='vim -f -R -'; psql -d idempiere -U adempiere $THIS_SERVER_HOST"
@@ -129,6 +136,7 @@ alias bd="buku --delete"
 # incus shortcuts
 alias i="incus"
 alias il="incus list"
+alias ie="incus exec"
 # incus cloud init
 ici() {
   incus exec $* -- cloud-init status
@@ -141,9 +149,10 @@ itp() {
 ic() {
   incus exec $* -- su --login debian
 }
-
-# help
-alias csc="vim ~/chuboe-system-configurator/.my_bash"
+# incus show config for container
+is(){
+  incus config show $*
+}
 
 # find biggest filed and directories
 alias ducks='du -cks -- * | sort -rn | head'
