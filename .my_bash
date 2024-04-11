@@ -185,6 +185,36 @@ alias tf='tail -f '
 # jrnl journal
 alias j='jrnl'
 
+# timesheet
+alias ts='~/chuboe-backup-private/timesheet/adt.sh'
+alias ts-log='cat ~/chuboe-backup-private/timesheet/log.txt'
+alias ts-edit='vim ~/chuboe-backup-private/timesheet/log.txt'
+
+# pass find
+alias pf='pass find'
+# pass quick copy
+function p() {
+    pass -c $1
+}
+# pass otp quick copy
+function po() {
+    pass otp -c $1
+}
+# pass new/edit
+function pe() {
+    pass edit $1
+}
+# pass quick copy from local password store
+function pl() {
+    PASSWORD_STORE_DIR=$(pwd)/.password-store/ pass -c $1
+}
+# pass generate random new password but no save to store
+pg() { 
+	local l=$1
+       	[ "$l" == "" ] && l=16
+      	tr -dc A-Za-z0-9_ < /dev/urandom | head -c ${l} | xargs | tr -d '\n' | xclip -sel clip
+}
+
 # always start tmux
 # https://unix.stackexchange.com/questions/43601/how-can-i-set-my-default-shell-to-start-up-tmux
 #if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
