@@ -49,6 +49,8 @@ AWS_BU_BUCKET_PATH=s3://bucketName/some/path/
 # Create a link to all locations that need to be copied offsite to a private location.
 # Uncomment the lines that apply to this server/desktop
 declare -A BU_PRIVATE
+#BU_PRIVATE[gpg]=~/.gnupg
+#BU_PRIVATE[password-store]=~/.password-store
 #BU_PRIVATE[Passwords.kdbx]=~/Passwords.kdbx
 #BU_PRIVATE[buku]=~/.local/share/buku/
 #BU_PRIVATE[jrnl]=~/.local/share/jrnl/
