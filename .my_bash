@@ -147,7 +147,11 @@ itp() {
 }
 # incus connect
 ic() {
-  incus exec $* -- su --login debian
+  if [[ $* == *"nixos"* ]]; then
+    incus exec $* -- bash
+  else
+    incus exec $* -- su --login debian
+  fi
 }
 # incus show config for container
 is(){
