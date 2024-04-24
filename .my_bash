@@ -137,6 +137,7 @@ alias bd="buku --delete"
 alias i="incus"
 alias il="incus list"
 alias ie="incus exec"
+alias ii="incus info" #shows snapshots
 # incus cloud init
 ici() {
   incus exec $* -- cloud-init status
@@ -148,8 +149,13 @@ itp() {
 # incus connect
 ic() {
   if [[ $* == *"nixos"* ]]; then
+    echo "nixos"
     incus exec $* -- bash
+  elif [[ $* == *"ubuntu"* ]]; then
+    echo "ubuntu"
+    incus exec $* -- su --login ubuntu
   else
+    echo "other - debian"
     incus exec $* -- su --login debian
   fi
 }

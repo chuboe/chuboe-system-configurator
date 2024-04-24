@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=gpg-timeout-desktop
+Exec=~/chuboe-system-configurator/gpg-timeout.sh
+StartupNotify=false
+Terminal=false
