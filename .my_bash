@@ -236,3 +236,12 @@ FILE=~/chuboe_project/.bash_chuboe_add
 if [ -f "$FILE" ]; then
     source "$FILE"
 fi
+
+#aichat bash complete
+_aichat_bash() {
+    if [[ -n "$READLINE_LINE" ]]; then
+        READLINE_LINE=$(aichat -e "$READLINE_LINE")
+        READLINE_POINT=${#READLINE_LINE}
+    fi
+}
+bind -x '"\ee": _aichat_bash'
