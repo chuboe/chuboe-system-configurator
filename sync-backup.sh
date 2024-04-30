@@ -56,7 +56,7 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[jrnl]=~/.local/share/jrnl/
 #BU_PRIVATE[jrnl-config]=~/.config/jrnl/
 #BU_PRIVATE[aichat-config]=~/.config/aichat/
-#BU_PRIVATE[all-config]=~/.config/
+#BU_PRIVATE[all-config]=~/.config/ #note this does not always work depending on embedded symlinks
 #BU_PRIVATE[bash-history]=~/.bash_history
 #BU_PRIVATE[ssh]=~/.ssh/
 #BU_PRIVATE[aws]=~/.aws/
