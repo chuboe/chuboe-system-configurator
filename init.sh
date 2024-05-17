@@ -4,7 +4,7 @@
 # - create symbolic links to .psqlrc and inputrc
 
 sudo apt update
-sudo apt install -y man vim git git-lfs tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pip gpg jc
+sudo apt install -y man vim git git-lfs tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pip gpg jc openssh-client
 
 # jc - JSON Convert - converts the output of many CLI tools, file-types, and common strings for easier parsing in scripts.
 # gcc cmake libssl-dev - added for rust toolchain
