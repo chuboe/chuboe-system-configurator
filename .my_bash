@@ -61,6 +61,7 @@ alias gc="git commit -m "
 alias gac="git commit -am "
 function gpush() {
     git pull
+    git status
     git add --all
     git commit -m "$1"
     git push
