@@ -59,6 +59,13 @@ alias gst="git status "
 alias ga="git add . "
 alias gc="git commit -m "
 alias gac="git commit -am "
+function gpush() {
+    git pull
+    git add --all
+    git commit -m "$1"
+    git push
+}
+
 
 # zellij helpers
 alias z="zellij --session chuck-steak "
@@ -110,6 +117,7 @@ alias b="buku"
 alias ba="buku -a"
 
 # add new from editor
+# also edit based on id => example: bw 351
 alias bw="buku -w"
 
 # list bookmarks
