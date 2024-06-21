@@ -1,5 +1,7 @@
 # help
 alias csc="vim ~/chuboe-system-configurator/.my_bash"
+csc="chuboe-system-configurator/.my_bash"
+# ze $csc -- opens this file in zellij
 
 # write commands to history immediately
 shopt -s histappend
@@ -60,16 +62,21 @@ alias ga="git add . "
 alias gc="git commit -m "
 alias gac="git commit -am "
 function gpush() {
-    git pull
-    git status
-    git add --all
-    git commit -m "$1"
+    git pull && \
+    git status && \
+    git add --all && \
+    git commit -m "$1" && \
     git push
 }
 
-
 # zellij helpers
-alias z="zellij --session chuck-steak "
+# temporarily disabling to allow for zellij bash completiongs
+#alias z="zellij"
+#alias zr="zellij run"
+#alias ze="zellij edit"
+#alias zrf="zellij run --floating"
+#alias zef="zellij edit --floating"
+#alias zcs="zellij --session chuck-steak "
 
 # TMUX helpers
 ta() {
@@ -254,3 +261,5 @@ _aichat_bash() {
     fi
 }
 bind -x '"\ee": _aichat_bash'
+
+TERM=xterm-256color
