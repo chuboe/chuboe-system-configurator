@@ -69,6 +69,8 @@ function gpush() {
     git push
 }
 
+git config --global credential.helper 'cache --timeout 7200000'
+
 # zellij helpers
 # temporarily disabling to allow for zellij bash completiongs
 #alias z="zellij"
