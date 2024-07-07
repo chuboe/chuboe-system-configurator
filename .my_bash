@@ -243,6 +243,11 @@ pg() {
       	tr -dc A-Za-z0-9_ < /dev/urandom | head -c ${l} | xargs | tr -d '\n' | xclip -sel clip
 }
 
+# fzf
+alias z='fzf --preview "bat --color=always {}"'
+# fzf pass to vim
+alias zv='vim $(fzf --preview "bat --color=always {}")'
+
 # always start tmux
 # https://unix.stackexchange.com/questions/43601/how-can-i-set-my-default-shell-to-start-up-tmux
 #if command -v tmux &> /dev/null && [ -n "$PS1" ] && [[ ! "$TERM" =~ screen ]] && [[ ! "$TERM" =~ tmux ]] && [ -z "$TMUX" ]; then
