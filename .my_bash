@@ -243,6 +243,9 @@ pg() {
       	tr -dc A-Za-z0-9_ < /dev/urandom | head -c ${l} | xargs | tr -d '\n' | xclip -sel clip
 }
 
+# age (cli ecryption)
+AGE_KEY_PUB="age1xx6fzh7v5nsmpcfavy9g87tnx5c59uswrxggpnt0jh08q6kxhu6qers2tw"
+
 # fzf
 alias z='fzf --preview "bat --color=always {}"'
 # fzf pass to vim
