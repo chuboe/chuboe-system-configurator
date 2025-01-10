@@ -4,7 +4,7 @@
 # - create symbolic links to .psqlrc and inputrc
 
 sudo apt update
-sudo apt install -y man vim git git-lfs tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pipx gpg jc openssh-server fzf
+sudo apt install -y man neovim git git-lfs tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pipx gpg jc openssh-server fzf
 
 # jc - JSON Convert - converts the output of many CLI tools, file-types, and common strings for easier parsing in scripts.
 # gcc cmake libssl-dev - added for rust toolchain
@@ -14,14 +14,10 @@ sudo apt install -y man vim git git-lfs tree tmux fd-find wget sysstat curl ufw 
 
 if [[ $1 == "" ]]
 then
-    # install vim awesome as base
-    echo HERE install vim-awesome
-    git clone --depth=1 https://github.com/amix/vimrc.git ~/.vim_runtime
-    sh ~/.vim_runtime/install_awesome_vimrc.sh
 
-    # install tmux plugin manager
-    echo HERE install tmux plugin manager
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    ## install tmux plugin manager
+    #echo HERE install tmux plugin manager
+    #git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
     # install rust eco system
     echo HERE install rust eco
@@ -31,11 +27,8 @@ then
     # copy over bin
     cp bin-rust/* ~/.cargo/bin/.
 
-    # copy over nushell defaults
-    mkdir -p ~/.config/nushell
-    cp defaults_nu/* ~/.config/nushell/.
-
     # create nushell aliases
+    mkdir -p ~/.config/nushell/
     cat alias_nu.txt | tee -a ~/.config/nushell/config.nu
 
     # install jc (python library to convert popular output to json)
@@ -46,32 +39,27 @@ then
 
     mkdir -p ~/.psql_history.d
     mkdir -p ~/.config/
-    cp my_configs.vim ~/.vim_runtime/.
     cp .psqlrc ~/.
     cp .inputrc ~/.
-    cp .alacritty.yml ~/.
-    cp .tmux.conf ~/.
-    cp starship.toml ~/.config/starship.toml
 fi
 
 if [[ $1 == "recompile" ]]
 then
-    # the following will add the updated binaries in the ~/.cargo/bin
-    echo "Remember: download latest nu config files when rebuilding binaries"
-    # wget https://raw.githubusercontent.com/nushell/nushell/main/crates/nu-utils/src/sample_config/default_env.nu -O env.nu
-    # wget https://raw.githubusercontent.com/nushell/nushell/main/crates/nu-utils/src/sample_config/default_config.nu -O config.nu
 
     # install nushell
     echo HERE install nushell
-    cargo install nu --locked --features=dataframe
+    #cargo install nu --locked
+    cp ~/.cargo/bin/nu ./bin-rust/.
 
     # install starship prompt
     echo HERE install starship
-    cargo install starship --locked
+    #cargo install starship --locked
+    cp ~/.cargo/bin/starship ./bin-rust/.
 
     # install zellij (tmux replacement)
     echo HERE install zellij
-    cargo install zellij --locked
+    #cargo install zellij --locked
+    cp ~/.cargo/bin/zellij ./bin-rust/.
 
 fi
 
@@ -85,9 +73,9 @@ then
     # remove systemd message in prompt
     starship config container.disabled true
 
-    # add starship to nu
-    starship init nu | tee -a ~/.cache/starship/init.nu
-    echo "use ~/.cache/starship/init.nu" | tee -a ~/.config/nushell/config.nu
+    ### add starship to nu
+    ##starship init nu | tee -a ~/.cache/starship/init.nu
+    ##echo "use ~/.cache/starship/init.nu" | tee -a ~/.config/nushell/config.nu
 
     zellij setup --generate-completion bash | tee .zellijrc
     echo source \~/chuboe-system-configurator/.zellijrc >> ~/.bashrc
