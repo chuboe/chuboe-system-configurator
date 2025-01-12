@@ -1,7 +1,17 @@
 #!/bin/bash
 
-# wishlist
-# - create symbolic links to .psqlrc and inputrc
+function graceful_exit
+{
+      echo -e "Exiting due to an error occuring at $(TZ=US/Eastern date '+%m/%d/%Y %H:%M:%S EST.')\n" | tee -a $LOG_FILE
+      echo -e "Some results before the error may have been logged to $LOG_FILE\n"
+      echo -e "Here is the error message: $1\n"
+      exit 1
+}
+
+SC_SCRIPTNAME=$(readlink -f "$0")
+SC_SCRIPTPATH=$(dirname "$SC_SCRIPTNAME")
+SC_BASENAME=$(basename "$0")
+cd $SC_SCRIPTPATH || graceful_exit "could not cd to desired path"
 
 sudo apt update
 sudo apt install -y man neovim git git-lfs tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pipx gpg jc openssh-server fzf ripgrep
@@ -79,6 +89,12 @@ then
 
     zellij setup --generate-completion bash | tee .zellijrc
     echo source \~/chuboe-system-configurator/.zellijrc >> ~/.bashrc
+
+    cd /tmp
+    git clone https://github.com/cboecking/nerd-fonts-installer --depth 1
+    cd nerd-fonts-installer
+    ./install.sh
+    cd $SC_SCRIPTPATH
 
 fi
 

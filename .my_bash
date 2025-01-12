@@ -1,5 +1,5 @@
 # help
-alias csc="vim ~/chuboe-system-configurator/.my_bash"
+alias csc="nvim ~/chuboe-system-configurator/.my_bash"
 csc="chuboe-system-configurator/.my_bash"
 # ze $csc -- opens this file in zellij
 
@@ -26,7 +26,7 @@ alias o="xdg-open"
 # reference: https://superuser.com/questions/544272/how-to-open-file-with-default-program-from-command-line
 
 # alias for psql assuming iDempiere
-alias psqli="export PAGER='vim -f -R -'; psql -d idempiere -U adempiere $THIS_SERVER_HOST"
+alias psqli="export PAGER='nvim -f -R -'; psql -d idempiere -U adempiere $THIS_SERVER_HOST"
 
 # proper way to run a psli script
 # ref: http://petereisentraut.blogspot.com/2010/03/running-sql-scripts-with-psql.html
@@ -36,11 +36,12 @@ alias psqli-script="PGOPTIONS='--client-min-messages=warning' psqli -X -q -a -1 
 alias sudoi="sudo -u idempiere "
 
 # change default editor to vim
-export EDITOR=vim
+export EDITOR=nvim
 
 # create alias for read only vim. Use the following to edit and write:
 # :set modifiable write
-alias v="vim -M "
+alias v="nvim -M "
+alias vim="nvim"
 
 # create ll alias (needed for debian)
 alias ll="ls -al"
@@ -54,14 +55,15 @@ alias hgst="hg status "
 alias hgco="hg commit -m "
 
 # create hg pull -u alias
-alias gp="git pull  "
-alias gpu="git push -u origin main "
-alias gpu_master="git push -u origin master "
-alias gst="git status "
+#alias gp="git pull  "
+#alias gpu="git push -u origin main "
+#alias gpu_master="git push -u origin master "
+alias gs="git status "
+alias gd="git diff "
 alias ga="git add . "
 alias gc="git commit -m "
-alias gac="git commit -am "
-function gpush() {
+#alias gac="git commit -am "
+function gp() {
     git pull && \
     git status && \
     git add --all && \
@@ -246,10 +248,22 @@ pg() {
 # age (cli ecryption)
 AGE_KEY_PUB="age1xx6fzh7v5nsmpcfavy9g87tnx5c59uswrxggpnt0jh08q6kxhu6qers2tw"
 
+# save contects of clipboard to file in case needed later
+alias xc='xclip -selection clipboard -o > ~/.clip_save'
+alias xp='xclip -selection clipboard < ~/.clip_save'
+
 # fzf
-alias z='fzf --preview "bat --color=always {}"'
+export FZF_DEFAULT_OPTS="--sort --preview 'bat --style=numbers --color=always --line-range :500 {}' --preview-window='right:60%:wrap'"
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --bind='ctrl-k:preview-page-up,ctrl-j:preview-page-down'"
+alias z='fzf'
 # fzf pass to vim
-alias zv='vim $(fzf --preview "bat --color=always {}")'
+#alias zv='vim $(fzf --preview "bat --color=always {}")'
+ziv() {
+    local X=$(fzf)
+    if [[ -n $X ]]; then
+        vim $X
+    fi
+}
 
 # always start tmux
 # https://unix.stackexchange.com/questions/43601/how-can-i-set-my-default-shell-to-start-up-tmux
@@ -262,6 +276,9 @@ FILE=~/chuboe_project/.bash_chuboe_add
 if [ -f "$FILE" ]; then
     source "$FILE"
 fi
+
+alias ai='aichat'
+alias AI='aichat --'
 
 #aichat bash complete
 _aichat_bash() {
