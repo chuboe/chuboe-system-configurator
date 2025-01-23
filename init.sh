@@ -96,6 +96,8 @@ then
     ./install.sh
     cd $SC_SCRIPTPATH
 
+    git clone https://github.com/cboecking/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+
 fi
 
 # create and copy over backup artifacts
