@@ -14,7 +14,7 @@ SC_BASENAME=$(basename "$0")
 cd $SC_SCRIPTPATH || graceful_exit "could not cd to desired path"
 
 sudo apt update
-sudo apt install -y man neovim git git-lfs tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pipx gpg jc openssh-server fzf ripgrep
+sudo apt install -y man git git-lfs tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pipx gpg jc openssh-server fzf ripgrep
 
 # jc - JSON Convert - converts the output of many CLI tools, file-types, and common strings for easier parsing in scripts.
 # gcc cmake libssl-dev - added for rust toolchain
@@ -96,7 +96,16 @@ then
     ./install.sh
     cd $SC_SCRIPTPATH
 
+    #install neovim latest
+    cd /tmp
+    sudo apt install -y ninja-build gettext cmake unzip curl git # neovim dependencies
+    git clone https://github.com/neovim/neovim
+    cd neovim
+    git checkout stable
+    make CMAKE_BUILD_TYPE=Release
+    sudo make install
     git clone https://github.com/cboecking/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+    cd $SC_SCRIPTPATH
 
 fi
 
