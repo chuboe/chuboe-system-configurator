@@ -253,7 +253,7 @@ alias xc='xclip -selection clipboard -o > ~/.clip_save'
 alias xp='xclip -selection clipboard < ~/.clip_save'
 
 #echo "save-me" | clip
-alias clip='xclip -selection clipboard'
+alias clip="tr -d '\n' | xclip -selection clipboard"
 
 # fzf
 export FZF_DEFAULT_OPTS="--sort --preview 'bat --style=numbers --color=always --line-range :500 {}' --preview-window='right:60%:wrap'"
