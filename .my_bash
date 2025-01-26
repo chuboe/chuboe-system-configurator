@@ -252,6 +252,9 @@ AGE_KEY_PUB="age1xx6fzh7v5nsmpcfavy9g87tnx5c59uswrxggpnt0jh08q6kxhu6qers2tw"
 alias xc='xclip -selection clipboard -o > ~/.clip_save'
 alias xp='xclip -selection clipboard < ~/.clip_save'
 
+#echo "save-me" | clip
+alias clip='xclip -selection clipboard'
+
 # fzf
 export FZF_DEFAULT_OPTS="--sort --preview 'bat --style=numbers --color=always --line-range :500 {}' --preview-window='right:60%:wrap'"
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS --bind='ctrl-k:preview-page-up,ctrl-j:preview-page-down'"
