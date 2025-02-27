@@ -98,7 +98,7 @@ fi
 if [[ $1 == "" ]]
 then
     echo HERE update .bashrc
-    echo source $SC_BACKUP_SCRIPT_DIR/chuboe-system-configurator/.my_bash >> $HOME/.bashrc
+    echo source $SC_SCRIPTPATH/.my_bash >> $HOME/.bashrc
     # starship init => must be last in file
     echo 'eval "$(starship init bash)"' | tee -a $HOME/.bashrc
     source $HOME/.bashrc
@@ -110,9 +110,10 @@ then
     ##echo "use ~/.cache/starship/init.nu" | tee -a ~/.config/nushell/config.nu
 
     zellij setup --generate-completion bash | tee .zellijrc
-    echo source $SC_BACKUP_SCRIPT_DIR/chuboe-system-configurator/.zellijrc >> $HOME/.bashrc
+    echo source $SC_SCRIPTPATH/.zellijrc >> $HOME/.bashrc
 
     cd /tmp
+    echo HERE nerd-fonts
     git clone https://github.com/cboecking/nerd-fonts-installer --depth 1
     cd nerd-fonts-installer
     ./install.sh
@@ -120,6 +121,7 @@ then
 
     #install neovim latest
     cd /tmp
+    echo HERE neovim
     sudo apt install -y ninja-build gettext cmake unzip curl git # neovim dependencies
     git clone https://github.com/neovim/neovim
     cd neovim
@@ -132,13 +134,14 @@ then
 fi
 
 # create and copy over backup artifacts
+echo HERE copy files
 if [[ -f "$SC_BACKUP_SCRIPT" ]]; then
     echo "$SC_BACKUP_SCRIPT exists... skipping..."
 else
     sudo cp sync-backup.sh $SC_BACKUP_SCRIPT_DIR/.
     sudo cp chuboe-system-backup-cron $SC_BACKUP_SCRIPT_DIR/.
     # Draft a last update version to prevent the first rsync from failing
-    sudo touch $SC_BACKUP_SCRIPT_DIR/chuboe-system-backup/sync-lastupdate.txt
+    sudo touch $SC_BACKUP_SCRIPT_DIR/sync-lastupdate.txt
 fi
 
 
