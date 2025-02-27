@@ -166,3 +166,7 @@ done
 
 #### Backup Public via Rsync ####
 # TODO
+
+echo
+echo to test: ssh $RSYNC_BU_USER@$RSYNC_BU_URL ls $RSYNC_BU_PATH
+echo
