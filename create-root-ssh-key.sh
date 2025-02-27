@@ -28,11 +28,11 @@ echo "****"
 echo NOTE!! Switch to root before executing the below commands: sudo su -
 echo "****"
 echo To upload root key to rsync.net:
-echo "scp ~/.ssh/id_ed25519.pub $RSYNC_BU_USER@$RSYNC_BU_URL:.ssh/authorized_keys"
+echo "scp ~/.ssh/id_ed25519.pub RSYNC_BU_USER@RSYNC_BU_URL:.ssh/authorized_keys"
 echo Reference: to upload additional keys to rsync.net:
-echo "cat ~/.ssh/id_ed25519.pub | ssh $RSYNC_BU_USER@$RSYNC_BU_URL 'dd of=.ssh/authorized_keys oflag=append conv=notrunc'"
+echo "cat ~/.ssh/id_ed25519.pub | ssh RSYNC_BU_USER@RSYNC_BU_URL 'dd of=.ssh/authorized_keys oflag=append conv=notrunc'"
 echo "****"
 echo "See for more details: https://erp-academy.chuckboecking.com/?page_id=820"
 echo "****"
-echo "test using: ssh $RSYNC_BU_USER@$RSYNC_BU_URL ls
+echo "test using: ssh RSYNC_BU_USER@RSYNC_BU_URL ls"
 echo "****"
