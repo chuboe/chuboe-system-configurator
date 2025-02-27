@@ -4,7 +4,8 @@
 # Make sure the below user and path is correct. It is currently set to ubuntu.
 
 # Run a backup just after midnight
-5 1 * * * root echo $(date) > /opt/chuboe-system-configurator/sync-lastupdate.txt && /opt/chuboe-system-configurator/sync-backup.sh
+# Note: cron uses your machines timezone - change if needed
+5 1 * * * root echo $(date) > /opt/chuboe-system-backup/sync-lastupdate.txt && /opt/chuboe-system-backup/sync-backup.sh
 
 # General example using psql to export data and tee and date stamp the output - note: percent signs are escaped
 # Specific example used for monitoring logilite syncing where file simply selects last update time per table

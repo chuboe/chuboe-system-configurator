@@ -13,12 +13,9 @@
 # 2. Uncomment the below private array entries [BU_PRIVATE] as needed and the optional public [BU_PUBLIC] entries
 # 3. Search on the world ACTION and complete the necessary steps
 # 4. run this script as root and confirm there are no errors
-# 5. Run this script as root
 
 # Automated execution
-# It is expected that you will add this script to a cronjob for automatic execution
-# Here is an example:
-#   TODO: add example here
+# It is expected that you will add this script to a cronjob for automatic execution. See: chuboe-system-backup-cron
 
 function graceful_exit
 {
@@ -42,24 +39,24 @@ if [ "$SC_OSUSER" != "root" ]; then
     graceful_exit "Error: run script as root. Switch to root using: sudo su"
 fi
 
-#ACTION
+#ACTION - update these variables
 # Name of the remote backup directory that will be created for this server on your backup device/service
 BU_REMOTE_NAME=chuboe-sand-01
 # Some of the below backup sources belong to one or more users - this is the primary non-root user
 USER_PRIMARY=debian
 USER_HOME=/home/$USER_PRIMARY
 
+#ACTION - update these variables
+# Name the remote rsync service
+RSYNC_BU_USER=SomeRsyncUser
+RSYNC_BU_URL=SomeRsyncUser.rsync.net
+RSYNC_BU_PATH=$BU_REMOTE_NAME/backup
+
 # Create a local consolidation point where we will create a collection of symbolic links
 PATH_LOCAL_PRIVATE="private"
 mkdir -p $PATH_LOCAL_PRIVATE
 PATH_LOCAL_PUBLIC="public"
 mkdir -p $PATH_LOCAL_PUBLIC
-
-#ACTION
-# Name the remote rsync service
-RSYNC_BU_USER=SomeRsyncUser
-RSYNC_BU_URL=SomeRsyncUser.rsync.net
-RSYNC_BU_PATH=$BU_REMOTE_NAME/backup
 
 #ACTION if using aws for backup - not recommended
 # Name the remote AWS service

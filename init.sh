@@ -157,6 +157,8 @@ fi
 # see files: ls -l /var/log/sysstat/
 # see statistics for 26th of month: sudo sar -u -f /var/log/sysstat/sa26
 
+echo
+echo
 echo "Common next steps..."
 echo
 echo "change host name:"
@@ -165,3 +167,4 @@ echo
 echo "system backup instructions:"
 echo "cd $SC_BACKUP_SCRIPT_DIR"
 echo "cat sync-backup.sh # read instructions at top"
+echo
