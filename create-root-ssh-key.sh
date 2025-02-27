@@ -28,8 +28,8 @@ echo "****"
 echo NOTE!! Switch to root before executing the below commands: sudo su
 echo "****"
 echo To upload root key to rsync.net:
-echo "RSYNC_BU_USER=..."
-echo "RSYNC_BU_URL=..."
+echo "RSYNC_BU_USER="
+echo "RSYNC_BU_URL="
 echo "scp ~/.ssh/id_ed25519.pub \$RSYNC_BU_USER@\$RSYNC_BU_URL:.ssh/authorized_keys"
 echo Reference: to upload additional keys to rsync.net:
 echo "cat ~/.ssh/id_ed25519.pub | ssh RSYNC_BU_USER@RSYNC_BU_URL 'dd of=.ssh/authorized_keys oflag=append conv=notrunc'"
