@@ -141,6 +141,7 @@ else
     sudo cp sync-backup.sh $SC_BACKUP_SCRIPT_DIR/.
     sudo cp chuboe-system-backup-cron $SC_BACKUP_SCRIPT_DIR/.
     sudo cp create-root-ssh-key.sh $SC_BACKUP_SCRIPT_DIR/.
+    sudo cp chuboe-system-backup-cron $SC_BACKUP_SCRIPT_DIR/.
     # Draft a last update version to prevent the first rsync from failing
     sudo touch $SC_BACKUP_SCRIPT_DIR/sync-lastupdate.txt
 fi
@@ -156,6 +157,11 @@ fi
 # see files: ls -l /var/log/sysstat/
 # see statistics for 26th of month: sudo sar -u -f /var/log/sysstat/sa26
 
-echo "Common next steps"
-echo "*** change host name:"
+echo "Common next steps..."
+echo
+echo "change host name:"
 echo "sudo hostnamectl set-hostname XXX"
+echo
+echo "system backup instructions:"
+echo "cd $SC_BACKUP_SCRIPT_DIR"
+echo "cat sync-backup.sh # read instructions at top"

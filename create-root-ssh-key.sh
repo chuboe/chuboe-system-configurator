@@ -8,7 +8,7 @@ if [ "$SC_OSUSER" != "root" ]; then
 fi
 
 #### Create root ssh-keygen ####
-if [[ -f "~/.ssh/id_ed25519" ]]; then
+if [[ -f "$HOME/.ssh/id_ed25519" ]]; then
     echo "HERE ed25519 key already exists for root"
 else
     echo "HERE creating ed25519 key for root"
@@ -37,4 +37,5 @@ echo "****"
 echo "See for more details: https://erp-academy.chuckboecking.com/?page_id=820"
 echo "****"
 echo "test using: ssh \$RSYNC_BU_USER@\$RSYNC_BU_URL ls"
+echo "note: the ls command will return nothing; however, it should not error or ask you for a password"
 echo "****"

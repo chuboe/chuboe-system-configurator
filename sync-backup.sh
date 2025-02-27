@@ -12,6 +12,8 @@
 # 1. Execute create-root-ssh-key.sh as root to create a local ssh key and test connection
 # 2. Uncomment the below private array entries [BU_PRIVATE] as needed and the optional public [BU_PUBLIC] entries
 # 3. Search on the world ACTION and complete the necessary steps
+# 4. run this script as root and confirm there are no errors
+# 5. Run this script as root
 
 # Automated execution
 # It is expected that you will add this script to a cronjob for automatic execution
@@ -35,6 +37,10 @@ SC_OSUSER=$(id -u -n)
 SC_OSUSER_GROUP=$(id -g -n)
 cd $SC_SCRIPTPATH || graceful_exit "could not cd to $SC_SCRIPTPATH"
 
+if [ "$SC_OSUSER" != "root" ]; then
+    echo  
+    graceful_exit "Error: run script as root. Switch to root using: sudo su"
+fi
 
 #ACTION
 # Name of the remote backup directory that will be created for this server on your backup device/service
