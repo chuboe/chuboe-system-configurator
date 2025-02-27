@@ -9,8 +9,8 @@
 # By maintaining multiple sub-directories (private/public), you can use a different backup strategy for each directory
 
 # Minimal Instuctions
-# 1. Fill out each of the arrays (private [BU_PRIVATE] and public [BU_PUBLIC])
-# 2. Un-comment any pre-existing paths/objects that apply to your application
+# 1. Execute create-root-ssh-key.sh as root to create a local ssh key and test connection
+# 2. Uncomment the below private array entries [BU_PRIVATE] as needed and the optional public [BU_PUBLIC] entries
 # 3. Search on the world ACTION and complete the necessary steps
 
 # Automated execution
@@ -163,31 +163,3 @@ done
 
 #### Backup Public via Rsync ####
 # TODO
-
-#### Create root ssh-keygen ####
-if [[ -f "~/.ssh/id_ed25519" ]]; then
-    echo "HERE ed25519 key already exists for root"
-else
-    echo "HERE creating ed25519 key for root"
-    ssh-keygen -t ed25519 -a 100 -f ~/.ssh/id_ed25519 -N ""
-fi
-
-
-#### Backup Public via AWS ####
-# uncomment if needed
-#aws s3 sync $PATH_LOCAL_PUBLIC/ $AWS_BU_BUCKET_PATH
-
-#### Help Instructions ####
-echo
-echo "****"
-echo rsync.net help instructions: Allow access to rsync.net without entering a password
-echo "****"
-echo NOTE!! Switch to root before executing the below commands: sudo su -
-echo "****"
-echo To upload root key to rsync.net:
-echo "scp ~/.ssh/id_ed25519.pub $RSYNC_BU_USER@$RSYNC_BU_URL:.ssh/authorized_keys"
-echo Reference: to upload additional keys to rsync.net:
-echo "cat ~/.ssh/id_ed25519.pub | ssh $RSYNC_BU_USER@$RSYNC_BU_URL 'dd of=.ssh/authorized_keys oflag=append conv=notrunc'"
-echo "****"
-echo "See for more details: https://erp-academy.chuckboecking.com/?page_id=820"
-echo "****"

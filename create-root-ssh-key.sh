@@ -25,7 +25,7 @@ echo
 echo "****"
 echo rsync.net help instructions: Allow access to rsync.net without entering a password
 echo "****"
-echo NOTE!! Switch to root before executing the below commands: sudo su -
+echo NOTE!! Switch to root before executing the below commands: sudo su
 echo "****"
 echo To upload root key to rsync.net:
 echo "scp ~/.ssh/id_ed25519.pub RSYNC_BU_USER@RSYNC_BU_URL:.ssh/authorized_keys"
