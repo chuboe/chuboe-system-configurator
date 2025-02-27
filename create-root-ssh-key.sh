@@ -36,5 +36,5 @@ echo "cat ~/.ssh/id_ed25519.pub | ssh RSYNC_BU_USER@RSYNC_BU_URL 'dd of=.ssh/aut
 echo "****"
 echo "See for more details: https://erp-academy.chuckboecking.com/?page_id=820"
 echo "****"
-echo "test using: ssh RSYNC_BU_USER@RSYNC_BU_URL ls"
+echo "test using: ssh \$RSYNC_BU_USER@\$RSYNC_BU_URL ls"
 echo "****"
