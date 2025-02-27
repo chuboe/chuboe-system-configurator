@@ -8,6 +8,7 @@ function graceful_exit
       exit 1
 }
 
+echo HERE variables
 SC_SCRIPTNAME=$(readlink -f "$0")
 SC_SCRIPTPATH=$(dirname "$SC_SCRIPTNAME")
 SC_BASENAME=$(basename "$0")
@@ -17,14 +18,18 @@ SC_BACKUP_SCRIPT_DIR=/opt/chuboe-system-backup
 SC_BACKUP_SCRIPT=$SC_BACKUP_SCRIPT_DIR/sync-backup.sh
 
 #validations
-sudo -v &>/dev/null || graceful_exit "user does not have sudo capabilities"
+echo HERE validations
+sudo ls &>/dev/null || graceful_exit "user does not have sudo capabilities"
 
 #create shared location
+echo HERE create script directory
 sudo mkdir -p $SC_BACKUP_SCRIPT_DIR
+#sudo chown $SC_OSUSER:$SC_OSUSER_GROUP $SC_BACKUP_SCRIPT_DIR #should not be needed - should be owned by root
 cd $SC_BACKUP_SCRIPT_DIR || graceful_exit "could not cd to $SC_BACKUP_SCRIPT_DIR"
 cd $HOME || graceful_exit "could not cd to $HOME"
 cd $SC_SCRIPTPATH || graceful_exit "could not cd to $SC_SCRIPTPATH" #this is the location where clone occurred - this is the assumed location moving forward
 
+echo HERE apt install
 sudo apt update
 sudo apt install -y man git git-lfs tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pipx gpg jc openssh-server fzf ripgrep
 
@@ -130,10 +135,10 @@ fi
 if [[ -f "$SC_BACKUP_SCRIPT" ]]; then
     echo "$SC_BACKUP_SCRIPT exists... skipping..."
 else
-    cp sync-backup.sh $SC_BACKUP_SCRIPT_DIR/.
-    cp chuboe-system-backup-cron $SC_BACKUP_SCRIPT_DIR/.
+    sudo cp sync-backup.sh $SC_BACKUP_SCRIPT_DIR/.
+    sudo cp chuboe-system-backup-cron $SC_BACKUP_SCRIPT_DIR/.
     # Draft a last update version to prevent the first rsync from failing
-    touch $SC_BACKUP_SCRIPT_DIR/chuboe-system-backup/sync-lastupdate.txt
+    sudo touch $SC_BACKUP_SCRIPT_DIR/chuboe-system-backup/sync-lastupdate.txt
 fi
 
 
