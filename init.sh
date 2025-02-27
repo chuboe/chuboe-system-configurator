@@ -11,7 +11,19 @@ function graceful_exit
 SC_SCRIPTNAME=$(readlink -f "$0")
 SC_SCRIPTPATH=$(dirname "$SC_SCRIPTNAME")
 SC_BASENAME=$(basename "$0")
-cd $SC_SCRIPTPATH || graceful_exit "could not cd to desired path"
+SC_OSUSER=$(id -u -n)
+SC_OSUSER_GROUP=$(id -g -n)
+SC_BACKUP_SCRIPT_DIR=/opt/chuboe-system-backup
+SC_BACKUP_SCRIPT=$SC_BACKUP_SCRIPT_DIR/sync-backup.sh
+
+#validations
+sudo -v &>/dev/null || graceful_exit "user does not have sudo capabilities"
+
+#create shared location
+sudo mkdir -p $SC_BACKUP_SCRIPT_DIR
+cd $SC_BACKUP_SCRIPT_DIR || graceful_exit "could not cd to $SC_BACKUP_SCRIPT_DIR"
+cd $HOME || graceful_exit "could not cd to $HOME"
+cd $SC_SCRIPTPATH || graceful_exit "could not cd to $SC_SCRIPTPATH" #this is the location where clone occurred - this is the assumed location moving forward
 
 sudo apt update
 sudo apt install -y man git git-lfs tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pipx gpg jc openssh-server fzf ripgrep
@@ -27,7 +39,7 @@ then
 
     ## install tmux plugin manager
     #echo HERE install tmux plugin manager
-    #git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+    #git clone https://github.com/tmux-plugins/tpm $HOME/.tmux/plugins/tpm
 
     # install rust eco system
     echo HERE install rust eco
@@ -35,11 +47,11 @@ then
     source "$HOME/.cargo/env"
 
     # copy over bin
-    cp bin-rust/* ~/.cargo/bin/.
+    cp bin-rust/* $HOME/.cargo/bin/.
 
     # create nushell aliases
-    mkdir -p ~/.config/nushell/
-    cat alias_nu.txt | tee -a ~/.config/nushell/config.nu
+    mkdir -p $HOME/.config/nushell/
+    cat alias_nu.txt | tee -a $HOME/.config/nushell/config.nu
 
     # install jc (python library to convert popular output to json)
     # useful in nushell, example:
@@ -47,10 +59,10 @@ then
     # no longer installed via pip => see apt install above
         # pip install jc
 
-    mkdir -p ~/.psql_history.d
-    mkdir -p ~/.config/
-    cp .psqlrc ~/.
-    cp .inputrc ~/.
+    mkdir -p $HOME/.psql_history.d
+    mkdir -p $HOME/.config/
+    cp .psqlrc $HOME/.
+    cp .inputrc $HOME/.
 fi
 
 if [[ $1 == "recompile" ]]
@@ -59,27 +71,32 @@ then
     # install nushell
     echo HERE install nushell
     #cargo install nu --locked
-    cp ~/.cargo/bin/nu ./bin-rust/.
+    cp $HOME/.cargo/bin/nu ./bin-rust/.
 
     # install starship prompt
     echo HERE install starship
     #cargo install starship --locked
-    cp ~/.cargo/bin/starship ./bin-rust/.
+    cp $HOME/.cargo/bin/starship ./bin-rust/.
 
     # install zellij (tmux replacement)
     echo HERE install zellij
     #cargo install zellij --locked
-    cp ~/.cargo/bin/zellij ./bin-rust/.
+    cp $HOME/.cargo/bin/zellij ./bin-rust/.
+
+    # install aichat
+    echo HERE install aichat
+    #cargo install zellij --locked
+    cp $HOME/.cargo/bin/aichat ./bin-rust/.
 
 fi
 
 if [[ $1 == "" ]]
 then
     echo HERE update .bashrc
-    echo source \~/chuboe-system-configurator/.my_bash >> ~/.bashrc
+    echo source $SC_BACKUP_SCRIPT_DIR/chuboe-system-configurator/.my_bash >> $HOME/.bashrc
     # starship init => must be last in file
-    echo 'eval "$(starship init bash)"' | tee -a ~/.bashrc
-    source ~/.bashrc
+    echo 'eval "$(starship init bash)"' | tee -a $HOME/.bashrc
+    source $HOME/.bashrc
     # remove systemd message in prompt
     starship config container.disabled true
 
@@ -88,13 +105,13 @@ then
     ##echo "use ~/.cache/starship/init.nu" | tee -a ~/.config/nushell/config.nu
 
     zellij setup --generate-completion bash | tee .zellijrc
-    echo source \~/chuboe-system-configurator/.zellijrc >> ~/.bashrc
+    echo source $SC_BACKUP_SCRIPT_DIR/chuboe-system-configurator/.zellijrc >> $HOME/.bashrc
 
     cd /tmp
     git clone https://github.com/cboecking/nerd-fonts-installer --depth 1
     cd nerd-fonts-installer
     ./install.sh
-    cd $SC_SCRIPTPATH
+    cd $SC_SCRIPTPATH || graceful_exit "could not cd to $SC_SCRIPTPATH" #this is the location where clone occurred - this is the assumed location moving forward
 
     #install neovim latest
     cd /tmp
@@ -105,20 +122,18 @@ then
     make CMAKE_BUILD_TYPE=Release
     sudo make install
     git clone https://github.com/cboecking/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
-    cd $SC_SCRIPTPATH
+    cd $SC_SCRIPTPATH || graceful_exit "could not cd to $SC_SCRIPTPATH" #this is the location where clone occurred - this is the assumed location moving forward
 
 fi
 
 # create and copy over backup artifacts
-FILE=~/chuboe-system-backup/sync-backup.sh
-if [[ -f "$FILE" ]]; then
-    echo "$FILE exists... skipping..."
+if [[ -f "$SC_BACKUP_SCRIPT" ]]; then
+    echo "$SC_BACKUP_SCRIPT exists... skipping..."
 else
-    mkdir -p ~/chuboe-system-backup/
-    cp sync-backup.sh ~/chuboe-system-backup/.
-    cp chuboe-system-backup-cron ~/chuboe-system-backup/.
+    cp sync-backup.sh $SC_BACKUP_SCRIPT_DIR/.
+    cp chuboe-system-backup-cron $SC_BACKUP_SCRIPT_DIR/.
     # Draft a last update version to prevent the first rsync from failing
-    touch ~/chuboe-system-backup/sync-lastupdate.txt
+    touch $SC_BACKUP_SCRIPT_DIR/chuboe-system-backup/sync-lastupdate.txt
 fi
 
 
