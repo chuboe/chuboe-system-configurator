@@ -55,6 +55,7 @@ RSYNC_BU_PATH=$BU_REMOTE_NAME/backup
 # Create a local consolidation point where we will create a collection of symbolic links
 PATH_LOCAL_PRIVATE="private"
 mkdir -p $PATH_LOCAL_PRIVATE
+chmod 700 $PATH_LOCAL_PRIVATE
 PATH_LOCAL_PUBLIC="public"
 mkdir -p $PATH_LOCAL_PUBLIC
 
