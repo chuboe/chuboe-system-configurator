@@ -31,7 +31,7 @@ cd $SC_SCRIPTPATH || graceful_exit "could not cd to $SC_SCRIPTPATH" #this is the
 
 echo HERE apt install
 sudo apt update
-sudo apt install -y man git git-lfs tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pipx gpg jc openssh-server fzf ripgrep
+sudo apt install -y man git git-lfs tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pipx gpg jc openssh-server fzf ripgrep cron
 
 # jc - JSON Convert - converts the output of many CLI tools, file-types, and common strings for easier parsing in scripts.
 # gcc cmake libssl-dev - added for rust toolchain
