@@ -44,3 +44,4 @@ Any bash statements you wish to keep local to a given server, add to file named 
 
 * This repo includes a backup script to store common artifacts off-site.
 * See sync-backup.sh for details and usage
+* See [Simplified Server Data Backup with rsync.net](https://www.chuck-stack.org/ls/blog-rsync-net.html)
