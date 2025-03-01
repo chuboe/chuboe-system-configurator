@@ -5,7 +5,6 @@
 
 # Notes:
 # While this script comes with the github.com/chuboe/chuboe-system-configurator/, it can be used in isolation if needed
-# This script assumes (a) the presence of a /opt/chuboe-system-backup directory and (b) this script is copied to this location
 # By maintaining multiple sub-directories (private/public), you can use a different backup strategy for each directory
 
 # Minimal Instuctions
@@ -45,6 +44,7 @@ BU_REMOTE_NAME=chuboe-sand-01
 # Some of the below backup sources belong to one or more users - this is the primary non-root user
 USER_PRIMARY=debian
 USER_HOME=/home/$USER_PRIMARY
+OPT_BACKUP_DIR="/opt/chuboe-system-backup"
 
 #ACTION - update these variables
 # Name the remote rsync service
@@ -114,8 +114,9 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[nginx-log]=/var/log/nginx/
 #BU_PRIVATE[www]=/var/www/
 #BU_PRIVATE[ssl-certs]=/etc/ssl/certs/
-BU_PRIVATE[sync-backup.sh]=/opt/chuboe-system-backup/sync-backup.sh
-BU_PRIVATE[sync-lastupdate.txt]=/opt/chuboe-system-backup/sync-lastupdate.txt
+BU_PRIVATE[sync-backup.sh]=$OPT_BACKUP_DIR/sync-backup.sh
+BU_PRIVATE[sync-lastupdate.txt]=$OPT_BACKUP_DIR/sync-lastupdate.txt
+BU_PRIVATE[system-config-readme.md]=$OPT_BACKUP_DIR/readme.md
 
 #### created for convenience ####
 #mkdir -p ~/sql/
