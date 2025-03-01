@@ -142,7 +142,7 @@ else
     sudo cp chuboe-system-backup-cron $SC_BACKUP_SCRIPT_DIR/.
     sudo cp create-root-ssh-key.sh $SC_BACKUP_SCRIPT_DIR/.
     sudo cp chuboe-system-backup-cron $SC_BACKUP_SCRIPT_DIR/.
-    echo "write all system configuration changes here with most recent changes at the top." | sudo tee $SC_BACKUP_SCRIPT_DIR/readme.md.
+    echo "write all system configuration changes here with most recent changes at the top." | sudo tee $SC_BACKUP_SCRIPT_DIR/readme.md
     # Draft a last update version to prevent the first rsync from failing
     sudo touch $SC_BACKUP_SCRIPT_DIR/sync-lastupdate.txt
 fi
