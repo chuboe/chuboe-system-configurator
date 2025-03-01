@@ -52,7 +52,7 @@ then
     source "$HOME/.cargo/env"
 
     # copy over bin
-    cp bin-rust/* $HOME/.cargo/bin/.
+    sudo cp bin-rust/* /usr/local/bin/.
 
     # create nushell aliases
     mkdir -p $HOME/.config/nushell/
