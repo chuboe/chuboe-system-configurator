@@ -45,6 +45,7 @@ BU_REMOTE_NAME=chuboe-sand-01
 USER_PRIMARY=debian
 USER_HOME=/home/$USER_PRIMARY
 OPT_BACKUP_DIR="/opt/chuboe-system-backup"
+OPT_BACKUP_PRIVATE_DIR="/opt/chuboe-backup-private"
 
 #ACTION - update these variables
 # Name the remote rsync service
@@ -58,6 +59,9 @@ mkdir -p $PATH_LOCAL_PRIVATE
 chmod 700 $PATH_LOCAL_PRIVATE
 PATH_LOCAL_PUBLIC="public"
 mkdir -p $PATH_LOCAL_PUBLIC
+
+# Create directory for backing up misc artifacts
+mkdir -p $OPT_BACKUP_PRIVATE_DIR
 
 #ACTION if using aws for backup - not recommended
 # Name the remote AWS service
@@ -92,7 +96,6 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[id-image]="/opt/idempiere-image/"
 #BU_PRIVATE[id-dms-content]="/opt/DMS_Content/"
 #BU_PRIVATE[id-dms-thumbnail]="/opt/DMS_Thumbnails/"
-#BU_PRIVATE[backup-private]=/opt/chuboe-backup-private
 #BU_PRIVATE[chuboe-utils]="/opt/chuboe/idempiere-installation-script/utils/"
 #BU_PRIVATE[chuboe-id-backup-archive]="/opt/chuboe/idempiere-installation-script/chuboe_backup/archive/"
 #BU_PRIVATE[chuboe-id-backup-latest]="/opt/chuboe/idempiere-installation-script/chuboe_backup/latest/"
@@ -114,13 +117,13 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[nginx-log]=/var/log/nginx/
 #BU_PRIVATE[www]=/var/www/
 #BU_PRIVATE[ssl-certs]=/etc/ssl/certs/
+BU_PRIVATE[backup-private]=$OPT_BACKUP_PRIVATE_DIR
 BU_PRIVATE[sync-backup.sh]=$OPT_BACKUP_DIR/sync-backup.sh
 BU_PRIVATE[sync-lastupdate.txt]=$OPT_BACKUP_DIR/sync-lastupdate.txt
 BU_PRIVATE[system-config-readme.md]=$OPT_BACKUP_DIR/readme.md
 
-#### created for convenience ####
+#### exists for convenience if needed ####
 #mkdir -p ~/sql/
-mkdir -p /opt/chuboe-backup-private
 
 #### Public Backup Array ####
 # Create a link to all locations that need to be copied offsite to a publicly accessible location.
