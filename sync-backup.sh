@@ -92,7 +92,7 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[id-image]="/opt/idempiere-image/"
 #BU_PRIVATE[id-dms-content]="/opt/DMS_Content/"
 #BU_PRIVATE[id-dms-thumbnail]="/opt/DMS_Thumbnails/"
-#BU_PRIVATE[backup-private]=$USER_HOME/chuboe-backup-private
+#BU_PRIVATE[backup-private]=/opt/chuboe-backup-private
 #BU_PRIVATE[chuboe-utils]="/opt/chuboe/idempiere-installation-script/utils/"
 #BU_PRIVATE[chuboe-id-backup-archive]="/opt/chuboe/idempiere-installation-script/chuboe_backup/archive/"
 #BU_PRIVATE[chuboe-id-backup-latest]="/opt/chuboe/idempiere-installation-script/chuboe_backup/latest/"
@@ -120,7 +120,7 @@ BU_PRIVATE[system-config-readme.md]=$OPT_BACKUP_DIR/readme.md
 
 #### created for convenience ####
 #mkdir -p ~/sql/
-#mkdir -p ~/chuboe-backup-private-$USER_PRIMARY
+mkdir -p /opt/chuboe-backup-private
 
 #### Public Backup Array ####
 # Create a link to all locations that need to be copied offsite to a publicly accessible location.
