@@ -1,5 +1,6 @@
-[hostname]
-ssh_only = false
-format = '[$hostname](bold red) '
-trim_at = '.companyname.com'
-disabled = false
+
+[custom.container_name]
+# used when container is disabled and you need to show custom text
+command = "echo ''" # Command to execute
+#command = "echo '[your text here]'" # Command to execute
+when = "true"                       # always show when true

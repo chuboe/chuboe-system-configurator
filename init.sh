@@ -105,6 +105,8 @@ then
     # remove systemd message in prompt
     starship config container.disabled true
 
+    cat ./starship.toml | tee $HOME/.config/starship.toml
+
     ### add starship to nu
     ##starship init nu | tee -a ~/.cache/starship/init.nu
     ##echo "use ~/.cache/starship/init.nu" | tee -a ~/.config/nushell/config.nu
@@ -113,7 +115,7 @@ then
     echo source $SC_SCRIPTPATH/.zellijrc >> $HOME/.bashrc
 
     cd /tmp
-    echo HERE nerd-fonts
+    echok HERE nerd-fonts
     git clone https://github.com/cboecking/nerd-fonts-installer --depth 1
     cd nerd-fonts-installer
     ./install.sh
