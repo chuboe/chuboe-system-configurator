@@ -103,8 +103,7 @@ then
     echo 'eval "$(starship init bash)"' | tee -a $HOME/.bashrc
     source $HOME/.bashrc
     # remove systemd message in prompt
-    starship config container.disabled true
-
+    #starship config container.disabled true
     cat ./starship.toml | tee $HOME/.config/starship.toml
 
     ### add starship to nu
@@ -133,6 +132,13 @@ then
     git clone https://github.com/cboecking/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
     cd $SC_SCRIPTPATH || graceful_exit "could not cd to $SC_SCRIPTPATH" #this is the location where clone occurred - this is the assumed location moving forward
 
+    # Download and install nvm and nodejs:
+    curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+    nvm install 22
+    # Verify the versions:
+    #node -v # Should print...
+    #nvm current # Should print...
+    #npm -v # Should print...
 fi
 
 # create and copy over backup artifacts

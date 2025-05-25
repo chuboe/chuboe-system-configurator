@@ -1,3 +1,5 @@
+[container]
+disabled = true
 
 [custom.container_name]
 # used when container is disabled and you need to show custom text
