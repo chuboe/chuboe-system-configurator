@@ -133,7 +133,8 @@ alias ba="buku -a"
 alias bw="buku -w"
 
 # list bookmarks
-alias bp="buku -p"
+#alias bp="buku -p"
+# removed because clashes with bp copy/paste command
 
 # open bookmark with no prompt
 alias bo="buku --oa --np"
