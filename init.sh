@@ -53,7 +53,21 @@ then
     source "$HOME/.cargo/env"
 
     # copy over bin
-    sudo cp bin-rust/* /usr/local/bin/.
+    #sudo cp bin-rust/* /usr/local/bin/.
+    # Loop through each file in the source directory and create a symbolic link
+    for file in bin-rust/*; do
+        # Skip if it's a directory
+        if [ -f "$file" ]; then
+            # Get just the filename without the path
+            filename=$(basename "$file")
+
+            # Create the symbolic link
+            sudo ln -s "$(realpath "$file")" "/usr/local/bin/$filename"
+
+            #echo "Created symlink for $filename"
+        fi
+    done
+
 
     # create nushell aliases
     mkdir -p $HOME/.config/nushell/
