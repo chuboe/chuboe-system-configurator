@@ -24,9 +24,6 @@ mv ./model ~/.config/nerd-dictation
 python3 -m venv venv
 source venv/bin/activate
 pip install vosk
-
-# Now try running nerd-dictation
-#./nerd-dictation begin --vosk-model-dir=./model
 ```
 
 ```bash
