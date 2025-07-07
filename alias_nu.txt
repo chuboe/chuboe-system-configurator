@@ -2,3 +2,4 @@ alias ll = ls -l
 alias l = ls
 alias q = exit
 alias vim = nvim
+$env.config.table.mode = "compact"
