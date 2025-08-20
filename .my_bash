@@ -47,7 +47,7 @@ alias vim="nvim"
 alias ll="ls -al"
 
 # create ll -tr alias
-alias ltr="ll -tr "
+alias ltr="ll -trh "
 
 # create hg pull -u alias
 alias hgpu="hg pull -u "
@@ -294,3 +294,8 @@ _aichat_bash() {
 bind -x '"\ee": _aichat_bash'
 
 TERM=xterm-256color
+
+# passage
+# passage show some-passwd | oathtool --totp --base32 -
+alias otp="oathtool --totp --base32 -"
+
