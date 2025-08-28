@@ -297,5 +297,5 @@ TERM=xterm-256color
 
 # passage
 # passage show some-passwd | oathtool --totp --base32 -
-alias otp="oathtool --totp --base32 -"
+alias otp="oathtool --totp --base32 - | xclip -sel clip && echo 'copied to clipboard'"
 

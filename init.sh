@@ -31,11 +31,12 @@ cd $SC_SCRIPTPATH || graceful_exit "could not cd to $SC_SCRIPTPATH" #this is the
 
 echo HERE apt install
 sudo apt update
-sudo apt install -y man git git-lfs tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pipx gpg jc openssh-server fzf ripgrep cron jq moreutils
+sudo apt install -y man git git-lfs tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pipx gpg jc openssh-server fzf ripgrep cron jq moreutils dict
 
 # jc - JSON Convert - converts the output of many CLI tools, file-types, and common strings for easier parsing in scripts.
 # gcc cmake libssl-dev - added for rust toolchain
 # pip for python development/tools
+# dict - dictionary and thesaurus (install dictd dict-gcide dict-wn if need local results)
 # moreutils = vipe + ... (https://joeyh.name/code/moreutils/)
 
 # if you want to update the below files, add anything to the ./init.sh. Example: ./init.sh REDO
