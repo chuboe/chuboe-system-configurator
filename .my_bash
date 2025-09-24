@@ -156,7 +156,7 @@ alias bd="buku --delete"
 
 # incus shortcuts
 alias i="incus"
-alias il="incus list -c nstP46Sd"
+alias il="incus list -c enstP46Sd --all-projects"
 alias ie="incus exec"
 alias ii="incus info" #shows snapshots
 # incus cloud init
