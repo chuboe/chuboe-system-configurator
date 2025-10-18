@@ -68,7 +68,7 @@ function gp() {
     git commit -m "$1" && \
     git pull --rebase && \
     git status && \
-    git push
+    git push -u origin HEAD
 }
 
 git config --global credential.helper 'cache --timeout 7200000'
