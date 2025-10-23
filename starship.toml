@@ -6,3 +6,10 @@ disabled = true
 command = "echo ''" # Command to execute
 #command = "echo '[your text here]'" # Command to execute
 when = "true"                       # always show when true
+
+[directory]
+truncation_length = 8  # Show up to 8 directories in the path
+truncate_to_repo = false  # Don't truncate to git repo root
+truncation_symbol = "…/"  # Symbol to show when truncated
+format = "[$path]($style) "
+style = "cyan bold"
