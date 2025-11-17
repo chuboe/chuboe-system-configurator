@@ -65,7 +65,7 @@ alias gc="git commit -m "
 #alias gac="git commit -am "
 function gp() {
     git add --all
-    git commit -m "$1" || true
+    git commit -m "${1:-regular commit}" || true
     git pull --rebase && \
     git status && \
     git push -u origin HEAD
