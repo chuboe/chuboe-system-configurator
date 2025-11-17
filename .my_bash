@@ -64,8 +64,8 @@ alias ga="git add . "
 alias gc="git commit -m "
 #alias gac="git commit -am "
 function gp() {
-    git add --all && \
-    git commit -m "$1" && \
+    git add --all
+    git commit -m "$1" || true
     git pull --rebase && \
     git status && \
     git push -u origin HEAD
