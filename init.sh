@@ -63,7 +63,8 @@ then
             filename=$(basename "$file")
 
             # Create the symbolic link
-            sudo ln -s "$(realpath "$file")" "/usr/local/bin/$filename"
+            #sudo ln -s "$(realpath "$file")" "/usr/local/bin/$filename"
+            sudo cp "$(realpath "$file")" "/usr/local/bin/$filename"
 
             #echo "Created symlink for $filename"
         fi
