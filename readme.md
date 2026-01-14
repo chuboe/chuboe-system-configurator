@@ -45,3 +45,22 @@ Any bash statements you wish to keep local to a given server, add to file named 
 * This repo includes a backup script to store common artifacts off-site.
 * See sync-backup.sh for details and usage
 * See [Simplified Server Data Backup with rsync.net](https://www.chuck-stack.org/ls/blog-rsync-net.html)
+
+## Neovim
+
+This repo installs Neovim from source and uses the [kickstart.nvim](https://github.com/cboecking/kickstart.nvim) configuration (fork of [nvim-lua/kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)).
+
+### Troubleshooting
+
+**nvim-treesitter.configs not found error**
+
+If you see an error like `module 'nvim-treesitter.configs' not found`, this is due to a breaking change in nvim-treesitter where the default branch switched from `master` to `main` with an incompatible API rewrite.
+
+The fix is to pin nvim-treesitter to the `master` branch. This has been applied to the kickstart.nvim fork. To update an existing installation:
+
+```bash
+rm -rf ~/.config/nvim ~/.local/share/nvim
+git clone https://github.com/cboecking/kickstart.nvim.git ~/.config/nvim
+```
+
+See [kickstart.nvim issue #1802](https://github.com/nvim-lua/kickstart.nvim/issues/1802) for details.
