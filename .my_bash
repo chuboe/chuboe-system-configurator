@@ -299,6 +299,9 @@ TERM=xterm-256color
 # passage show some-passwd | oathtool --totp --base32 -
 alias otp="oathtool --totp --base32 - | xclip -sel clip && echo 'copied to clipboard'"
 
+# opencode
+alias oc="opencode"
+
 
 ### start: add custom commands here...
 
