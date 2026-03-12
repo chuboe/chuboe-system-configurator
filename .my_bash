@@ -301,6 +301,7 @@ alias otp="oathtool --totp --base32 - | xclip -sel clip && echo 'copied to clipb
 
 # opencode
 alias oc="opencode"
+alias bc="fend" #rust bc equivalent
 
 
 ### start: add custom commands here...
