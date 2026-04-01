@@ -13,3 +13,11 @@ truncate_to_repo = false  # Don't truncate to git repo root
 truncation_symbol = "…/"  # Symbol to show when truncated
 format = "[$path]($style) "
 style = "cyan bold"
+
+[username]
+disabled = false
+show_always = true
+
+[hostname]
+ssh_only = false
+disabled = false
