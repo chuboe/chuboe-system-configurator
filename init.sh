@@ -173,6 +173,10 @@ else
     sudo touch $SC_BACKUP_SCRIPT_DIR/sync-lastupdate.txt
 fi
 
+# nix package manager
+echo HERE install nix package manager
+curl -fsSL https://install.determinate.systems/nix | sh -s -- install --no-confirm
+
 
 ### system stats ###
 # execute this file if you wish the system to automatically collect statistics
