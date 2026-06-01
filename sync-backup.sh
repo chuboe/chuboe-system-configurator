@@ -85,8 +85,8 @@ declare -A BU_PRIVATE
 #BU_PRIVATE[all-config]=$USER_HOME/.config/ #note this does not always work depending on embedded symlinks
 #BU_PRIVATE[bash-history]=$USER_HOME/.bash_history
 #BU_PRIVATE[bash-history-root]=$HOME/.bash_history
-BU_PRIVATE[bashrc]=$USER_HOME/.bashrc
-BU_PRIVATE[bashrc-root]=$HOME/.bashrc
+#BU_PRIVATE[bashrc]=$USER_HOME/.bashrc
+#BU_PRIVATE[bashrc-root]=$HOME/.bashrc
 #BU_PRIVATE[ssh]=$USER_HOME/.ssh/
 #BU_PRIVATE[ssh-root]=$HOME/.ssh/
 #BU_PRIVATE[aws]=$USER_HOME/.aws/
