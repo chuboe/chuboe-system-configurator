@@ -71,7 +71,11 @@ function gp() {
     git push -u origin HEAD
 }
 
-git config --global credentials.helper store
+<<<<<<< HEAD
+git config --global credential.helper store
+=======
+git config --global credential.helper store
+>>>>>>> 1ca35fe (added git config store and bashrc backup)
 
 # zellij helpers
 # temporarily disabling to allow for zellij bash completiongs
