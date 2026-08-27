@@ -22,7 +22,7 @@ set -o vi
 export HISTTIMEFORMAT="%d/%m/%y %T "
 
 # open file from command
-alias o="xdg-open"
+alias o="xdg-open &"
 # reference: https://superuser.com/questions/544272/how-to-open-file-with-default-program-from-command-line
 
 # alias for psql assuming iDempiere
