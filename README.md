@@ -50,17 +50,8 @@ Any bash statements you wish to keep local to a given server, add to file named 
 
 This repo installs Neovim from source and uses the [kickstart.nvim](https://github.com/cboecking/kickstart.nvim) configuration (fork of [nvim-lua/kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)).
 
+See [refresh-kickstart-from-upstream.md](refresh-kickstart-from-upstream.md) for the recurring procedure that keeps the personal fork caught up with `nvim-lua/kickstart.nvim/master`.
+
 ### Troubleshooting
 
-**nvim-treesitter.configs not found error**
-
-If you see an error like `module 'nvim-treesitter.configs' not found`, this is due to a breaking change in nvim-treesitter where the default branch switched from `master` to `main` with an incompatible API rewrite.
-
-The fix is to pin nvim-treesitter to the `master` branch. This has been applied to the kickstart.nvim fork. To update an existing installation:
-
-```bash
-rm -rf ~/.config/nvim ~/.local/share/nvim
-git clone https://github.com/cboecking/kickstart.nvim.git ~/.config/nvim
-```
-
-See [kickstart.nvim issue #1802](https://github.com/nvim-lua/kickstart.nvim/issues/1802) for details.
+If nvim fails to load — a treesitter module error, custom plugins in `~/.config/nvim/lua/custom/plugins/` not loading, or a kickstart.nvim config out of sync — the personal fork has typically fallen behind upstream. Run the procedure in [refresh-kickstart-from-upstream.md](refresh-kickstart-from-upstream.md).
