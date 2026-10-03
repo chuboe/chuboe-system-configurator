@@ -138,15 +138,45 @@ then
     cd $SC_SCRIPTPATH || graceful_exit "could not cd to $SC_SCRIPTPATH" #this is the location where clone occurred - this is the assumed location moving forward
 
     #install neovim latest
-    cd /tmp
     echo HERE neovim
     sudo apt install -y ninja-build gettext cmake unzip curl git # neovim dependencies
-    git clone https://github.com/neovim/neovim
-    cd neovim
-    git checkout stable
-    make CMAKE_BUILD_TYPE=Release
+
+    # Install tree-sitter CLI (required by upstream kickstart.nvim's auto-parser install).
+    # Latest releases (>=0.26.x) require GLIBC 2.39 (Debian trixie); Debian bookworm
+    # ships GLIBC 2.36, so we pin to the last release that still builds against 2.36.
+    # Bump when trixie becomes the base image.
+    TS_VERSION="0.25.10"
+    TS_BIN="/usr/local/bin/tree-sitter"
+    if ! command -v tree-sitter >/dev/null 2>&1 || ! tree-sitter --version >/dev/null 2>&1; then
+        echo "Installing tree-sitter CLI v${TS_VERSION} to ${TS_BIN}..."
+        curl -fsSL "https://github.com/tree-sitter/tree-sitter/releases/download/v${TS_VERSION}/tree-sitter-linux-x64.gz" \
+            | gunzip > /tmp/tree-sitter
+        chmod +x /tmp/tree-sitter
+        sudo mv /tmp/tree-sitter "$TS_BIN"
+        tree-sitter --version
+    fi
+
+    # Persistent neovim source so reruns fast-update instead of re-cloning.
+    NEOVIM_SRC="$HOME/.local/src/neovim"
+    mkdir -p "$(dirname "$NEOVIM_SRC")"
+    if [ -d "$NEOVIM_SRC/.git" ]; then
+        git -C "$NEOVIM_SRC" fetch --tags --prune origin
+        git -C "$NEOVIM_SRC" checkout stable
+        git -C "$NEOVIM_SRC" reset --hard origin/stable
+    else
+        git clone https://github.com/neovim/neovim "$NEOVIM_SRC"
+        git -C "$NEOVIM_SRC" checkout stable
+    fi
+    cd "$NEOVIM_SRC" || graceful_exit "could not cd to $NEOVIM_SRC"
+    # Drop the previous build dir so a toolchain change actually rebuilds; incremental
+    # cmake otherwise keeps stale caches.
+    rm -rf build
+    make CMAKE_BUILD_TYPE=Release -j"$(nproc)"
     sudo make install
-    git clone https://github.com/cboecking/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+
+    if [ ! -d "${XDG_CONFIG_HOME:-$HOME/.config}/nvim/.git" ]; then
+        git clone https://github.com/cboecking/kickstart.nvim.git "${XDG_CONFIG_HOME:-$HOME/.config}"/nvim
+    fi
     cd $SC_SCRIPTPATH || graceful_exit "could not cd to $SC_SCRIPTPATH" #this is the location where clone occurred - this is the assumed location moving forward
 
     # Download and install nvm and nodejs:
