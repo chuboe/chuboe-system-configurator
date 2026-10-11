@@ -47,9 +47,10 @@ alias vim="nvim"
 
 # create ll alias (needed for debian)
 alias ll="ls -al"
-
-# create ll -tr alias
 alias ltr="ll -trh "
+
+# quick notes
+alias e="echo"
 
 # create hg pull -u alias
 alias hgpu="hg pull -u "
