@@ -1,0 +1,61 @@
+# shellcheck shell=bash
+# conf.d/examples/private.conf.example -- reference entries for the
+# private scope. This file is NOT sourced by sync-backup.sh -- it lives
+# in conf.d/examples/ purely as copy-paste fodder for operators building
+# their own conf.d/private.conf.
+#
+# To enable an entry:
+#   1. Copy the line into ../private.conf (uncommented).
+#   2. Adjust the path to match your system.
+#   3. Verify the source path exists before relying on the backup.
+
+declare -gA BU_PRIVATE=(
+    # [gpg]=$USER_HOME/.gnupg
+    # [password-store]=$USER_HOME/.password-store
+    # [Passwords.kdbx]=$USER_HOME/Passwords.kdbx
+    # [buku]=$USER_HOME/.local/share/buku/
+    # [jrnl]=$USER_HOME/.local/share/jrnl/
+    # [jrnl-config]=$USER_HOME/.config/jrnl/
+    # [aichat-config]=$USER_HOME/.config/aichat/
+    # [all-config]=$USER_HOME/.config/ #note this does not always work depending on embedded symlinks
+    # [bash-history]=$USER_HOME/.bash_history
+    # [bash-history-root]=$HOME/.bash_history
+    # [bashrc]=$USER_HOME/.bashrc
+    # [bashrc-root]=$HOME/.bashrc
+    # [ssh]=$USER_HOME/.ssh/
+    # [ssh-root]=$HOME/.ssh/
+    # [aws]=$USER_HOME/.aws/
+    # [id-all]=/opt/idempiere-server/
+    # [id-log]=/opt/idempiere-server/log/
+    # [id-utils]=/opt/idempiere-server/utils/
+    # [id-attach]=/opt/idempiere-attach/
+    # [id-archive]=/opt/idempiere-archive/
+    # [id-image]=/opt/idempiere-image/
+    # [id-dms-content]=/opt/DMS_Content/
+    # [id-dms-thumbnail]=/opt/DMS_Thumbnails/
+    # [chuboe-utils]=/opt/chuboe/idempiere-installation-script/utils/
+    # [chuboe-id-backup-archive]=/opt/chuboe/idempiere-installation-script/chuboe_backup/archive/
+    # [chuboe-id-backup-latest]=/opt/chuboe/idempiere-installation-script/chuboe_backup/latest/
+    # [metabase]=/opt/metabase/
+    # [metabase-code]=$USER_HOME/code/metabase/
+    # [sql]=$USER_HOME/sql/
+    # [postgres-config]=/etc/postgresql/17/main/
+    # [postgres-history]=$USER_HOME/.psql_history.d/
+    # [postgres-log-start]=/var/log/postgresql/
+    # [postgres-log-query]=/var/lib/postgresql/17/main/log/
+    # [incus-export]=$USER_HOME/incus-export/
+    # [tmux-save]=$USER_HOME/.tmux-save/
+    # [pi]=$USER_HOME/.pi/                  # AI agent state: skills, agent install, sessions
+    # [cron-d]=/etc/cron.d/
+    # [crontab]=/etc/crontab
+    # [os-release]=/etc/os-release
+    # [haproxy.cfg]=/etc/haproxy/haproxy.cfg
+    # [apache-config]=/etc/apache2/
+    # [nginx-config]=/etc/nginx/
+    # [nginx-log]=/var/log/nginx/
+    # [www]=/var/www/
+    # [ssl-certs]=/etc/ssl/certs/
+)
+
+# Required in the LIVE conf.d/private.conf, not in this example:
+# SYNC_BACKUP_SCOPES+=(private)

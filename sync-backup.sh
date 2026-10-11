@@ -5,175 +5,215 @@
 
 # Notes:
 # While this script comes with the github.com/chuboe/chuboe-system-configurator/, it can be used in isolation if needed
-# By maintaining multiple sub-directories (private/public), you can use a different backup strategy for each directory
+# Configuration lives in conf.d/, NOT in this script -- see "Architecture" below.
 
-# Minimal Instuctions
+# Architecture
+#   sync-backup.sh            generic engine. Sources conf.d/*.conf, then
+#                             iterates SYNC_BACKUP_SCOPES and rsyncs every
+#                             entry in each scope's BU_<SCOPE> array.
+#   conf.d/paths.conf         remote connection + local path variables
+#                             (sourced first; do not rename).
+#   conf.d/<scope>.conf       one associative array (BU_<SCOPE>) per file,
+#                             plus `SYNC_BACKUP_SCOPES+=(<scope>)`.
+#   conf.d/examples/          copy-paste fodder. NOT sourced.
+#
+# Shellcheck: `shellcheck sync-backup.sh` is clean. To also analyze the
+# conf files that the engine sources, run `shellcheck -x sync-backup.sh`.
+# Conf files declare variables/arrays that are intentionally consumed
+# by the engine after sourcing, so SC2034 ("appears unused") warnings
+# on conf files in isolation are expected false positives.
+#
+# v02 layout: per-scope, per-key rsync into
+#   $RSYNC_BU_PATH/<scope>/<key>/
+# so --delete cannot cross-contaminate between entries, and a missing or
+# broken-symlink source is skipped (with a syslog warning) instead of
+# being staged as a hole that rsync would later walk into.
+
+# Minimal Instructions
 # 1. Execute create-root-ssh-key.sh as root to create a local ssh key and test connection
-# 2. Uncomment the below private array entries [BU_PRIVATE] as needed and the optional public [BU_PUBLIC] entries
-# 3. Search on the world ACTION and complete the necessary steps
-# 4. run this script as root and confirm there are no errors
+# 2. Edit conf.d/paths.conf with your rsync.net credentials
+# 3. Edit conf.d/private.conf (and/or copy conf.d/examples/private.conf.example entries in)
+# 4. Run this script as root and confirm there are no errors
 
 # Automated execution
 # It is expected that you will add this script to a cronjob for automatic execution. See: chuboe-system-backup-cron
 
 function graceful_exit
 {
-      echo -e "Exiting due to an error occuring at $(TZ=US/Eastern date '+%m/%d/%Y %H:%M:%S EST.')\n" | tee -a $LOG_FILE
-      echo -e "Some results before the error may have been logged to $LOG_FILE\n"
-      echo -e "Here is the error message: $1\n"
-      exit 1
+    # Catastrophic-failure handler. Logs to the same sync-backup syslog tag
+    # the rest of the script uses (the v01 reference to a local log file
+    # was never set, so it never worked) and echoes to stdout for cron /
+    # interactive runs.
+    local stamp
+    stamp=$(TZ=US/Eastern date '+%m/%d/%Y %H:%M:%S EST.')
+    printf 'Exiting due to an error occuring at %s\nError: %s\n' \
+        "$stamp" "$1" | logger -t sync-backup
+    echo "Exiting due to an error occuring at $stamp"
+    echo "Error: $1"
+    exit 1
+}
+
+# Back up a single source path (file or directory) into a per-key destination
+# subdir at the rsync.net remote. Skips silently (with a syslog record) if
+# the source is missing or a broken symlink -- one bad BU_* entry must not
+# poison --delete for other entries or the whole backup.
+#
+# Each entry gets its own rsync invocation with its own --delete scope, so
+# deletions and broken-link failures are isolated. This is the v02 model;
+# see the script header for context.
+backup_one_entry() {
+    local src="$1"
+    local remote_base="$2"   # e.g. $RSYNC_BU_PATH/private/id-archive (no trailing slash)
+    local label="$3"         # e.g. "private/id-archive" -- for log lines
+
+    if [ ! -e "$src" ]; then
+        # -e follows symlinks, so a broken symlink (target gone) is detected
+        # here and we never rsync it. The destination subdir from any previous
+        # good run is left in place -- which is the safe default for a backup.
+        logger -t sync-backup -p user.warning \
+            "skipping $label: source missing or broken symlink: $src"
+        return 0
+    fi
+
+    if [ -d "$src" ]; then
+        # Directory source: trailing slash on both sides so the contents of
+        # $src land directly inside $remote_base, and --delete operates on
+        # the contents (not on $remote_base itself).
+        rsync -rptgoDL --delete \
+            "$src/" "$RSYNC_BU_USER@$RSYNC_BU_URL:$remote_base/"
+    else
+        # File source: no trailing slash on either side so the file lands
+        # as $remote_base (a single file at the remote). --delete has
+        # nothing to scan; that's fine.
+        rsync -rptgoDL --delete \
+            "$src" "$RSYNC_BU_USER@$RSYNC_BU_URL:$remote_base"
+    fi
+
+    local rc=$?
+    if [ $rc -ne 0 ]; then
+        logger -t sync-backup -p user.err \
+            "rsync failed for $label (exit $rc): $src"
+    fi
+    return $rc
 }
 
 #### Variables ####
-echo HERE variables
 SC_SCRIPTNAME=$(readlink -f "$0")
 SC_SCRIPTPATH=$(dirname "$SC_SCRIPTNAME")
-SC_BASENAME=$(basename "$0")
 SC_OSUSER=$(id -u -n)
-SC_OSUSER_GROUP=$(id -g -n)
-cd $SC_SCRIPTPATH || graceful_exit "could not cd to $SC_SCRIPTPATH"
+cd "$SC_SCRIPTPATH" || graceful_exit "could not cd to $SC_SCRIPTPATH"
 
 if [ "$SC_OSUSER" != "root" ]; then
     echo  
     graceful_exit "Error: run script as root. Switch to root using: sudo su"
 fi
 
-#ACTION - update these variables
-# Name of the remote backup directory that will be created for this server on your backup device/service
-BU_REMOTE_NAME=chuboe-sand-01
-# Some of the below backup sources belong to one or more users - this is the primary non-root user
-USER_PRIMARY=debian
-USER_HOME=/home/$USER_PRIMARY
-OPT_BACKUP_DIR="/opt/chuboe-system-backup"
-OPT_BACKUP_PRIVATE_DIR="/opt/chuboe-backup-private"
 
-#ACTION - update these variables
-# Name the remote rsync service
-RSYNC_BU_USER=SomeRsyncUser
-RSYNC_BU_URL=SomeRsyncUser.rsync.net
-RSYNC_BU_PATH=$BU_REMOTE_NAME/backup
+#### Source Configuration ####
+# Default conf dir is alongside the script. Override with
+# SYNC_BACKUP_CONF_DIR=/some/other/path for non-default deployments.
+CONF_DIR="${SYNC_BACKUP_CONF_DIR:-$SC_SCRIPTPATH/conf.d}"
 
-# Create a local consolidation point where we will create a collection of symbolic links
-PATH_LOCAL_PRIVATE="private"
-mkdir -p $PATH_LOCAL_PRIVATE
-chmod 700 $PATH_LOCAL_PRIVATE
-PATH_LOCAL_PUBLIC="public"
-mkdir -p $PATH_LOCAL_PUBLIC
+if [ ! -d "$CONF_DIR" ]; then
+    graceful_exit "configuration directory not found: $CONF_DIR (set SYNC_BACKUP_CONF_DIR to override)"
+fi
+if [ ! -f "$CONF_DIR/paths.conf" ]; then
+    graceful_exit "missing required configuration: $CONF_DIR/paths.conf"
+fi
 
-# Create directory for backing up misc artifacts
-mkdir -p $OPT_BACKUP_PRIVATE_DIR
+# paths.conf first so per-scope confs can reference $OPT_BACKUP_DIR,
+# $USER_HOME, $RSYNC_BU_*, etc.
+# shellcheck disable=SC1091
+# $CONF_DIR is dynamic (overridable via SYNC_BACKUP_CONF_DIR), so a
+# static source link is not possible. The conf file is still analyzed
+# when shellcheck is invoked with `-x`.
+source "$CONF_DIR/paths.conf"
 
-#ACTION if using aws for backup - not recommended
-# Name the remote AWS service
-#AWS_BU_BUCKET_PATH=s3://bucketName/some/path/
-# AWS Note - assumes you have already performed:
-#   sudo apt install awscli
-#   aws --configure
-
-
-#### Private Backup Array ####
-# Create a link to all locations that need to be copied offsite to a private location.
-# Uncomment the lines that apply to this server/desktop
-declare -A BU_PRIVATE
-#BU_PRIVATE[gpg]=$USER_HOME/.gnupg
-#BU_PRIVATE[password-store]=$USER_HOME/.password-store
-#BU_PRIVATE[Passwords.kdbx]=$USER_HOME/Passwords.kdbx
-#BU_PRIVATE[buku]=$USER_HOME/.local/share/buku/
-#BU_PRIVATE[jrnl]=$USER_HOME/.local/share/jrnl/
-#BU_PRIVATE[jrnl-config]=$USER_HOME/.config/jrnl/
-#BU_PRIVATE[aichat-config]=$USER_HOME/.config/aichat/
-#BU_PRIVATE[all-config]=$USER_HOME/.config/ #note this does not always work depending on embedded symlinks
-#BU_PRIVATE[bash-history]=$USER_HOME/.bash_history
-#BU_PRIVATE[bash-history-root]=$HOME/.bash_history
-#BU_PRIVATE[bashrc]=$USER_HOME/.bashrc
-#BU_PRIVATE[bashrc-root]=$HOME/.bashrc
-#BU_PRIVATE[ssh]=$USER_HOME/.ssh/
-#BU_PRIVATE[ssh-root]=$HOME/.ssh/
-#BU_PRIVATE[aws]=$USER_HOME/.aws/
-#BU_PRIVATE[id-all]="/opt/idempiere-server/"
-#BU_PRIVATE[id-log]="/opt/idempiere-server/log/"
-#BU_PRIVATE[id-utils]="/opt/idempiere-server/utils/"
-#BU_PRIVATE[id-attach]="/opt/idempiere-attach/"
-#BU_PRIVATE[id-archive]="/opt/idempiere-archive/"
-#BU_PRIVATE[id-image]="/opt/idempiere-image/"
-#BU_PRIVATE[id-dms-content]="/opt/DMS_Content/"
-#BU_PRIVATE[id-dms-thumbnail]="/opt/DMS_Thumbnails/"
-#BU_PRIVATE[chuboe-utils]="/opt/chuboe/idempiere-installation-script/utils/"
-#BU_PRIVATE[chuboe-id-backup-archive]="/opt/chuboe/idempiere-installation-script/chuboe_backup/archive/"
-#BU_PRIVATE[chuboe-id-backup-latest]="/opt/chuboe/idempiere-installation-script/chuboe_backup/latest/"
-#BU_PRIVATE[metabase]="/opt/metabase/"
-#BU_PRIVATE[metabase-code]=$USER_HOME/code/metabase/
-#BU_PRIVATE[sql]=$USER_HOME/sql/
-#BU_PRIVATE[postgres-config]="/etc/postgresql/17/main/"
-#BU_PRIVATE[postgres-history]=$USER_HOME/.psql_history.d/
-#BU_PRIVATE[postgres-log-start]=/var/log/postgresql/
-#BU_PRIVATE[postgres-log-query]=/var/lib/postgresql/17/main/log/
-#BU_PRIVATE[incus-export]=$USER_HOME/incus-export/
-#BU_PRIVATE[tmux-save]=$USER_HOME/.tmux-save/
-#BU_PRIVATE[cron-d]=/etc/cron.d/
-#BU_PRIVATE[crontab]=/etc/crontab
-#BU_PRIVATE[os-release]=/etc/os-release
-#BU_PRIVATE[haproxy.cfg]=/etc/haproxy/haproxy.cfg
-#BU_PRIVATE[apache-config]=/etc/apache2/
-#BU_PRIVATE[nginx-config]=/etc/nginx/
-#BU_PRIVATE[nginx-log]=/var/log/nginx/
-#BU_PRIVATE[www]=/var/www/
-#BU_PRIVATE[ssl-certs]=/etc/ssl/certs/
-BU_PRIVATE[backup-private]=$OPT_BACKUP_PRIVATE_DIR
-BU_PRIVATE[sync-backup.sh]=$OPT_BACKUP_DIR/sync-backup.sh
-BU_PRIVATE[sync-lastupdate.txt]=$OPT_BACKUP_DIR/sync-lastupdate.txt
-BU_PRIVATE[system-config-readme.md]=$OPT_BACKUP_DIR/readme.md
-
-#### exists for convenience if needed ####
-#mkdir -p ~/sql/
-
-#### Public Backup Array ####
-# Create a link to all locations that need to be copied offsite to a publicly accessible location.
-# Uncomment the lines that apply to this server/desktop
-declare -A BU_PUBLIC
-#BU_PUBLIC[backup-public]=~/chuboe-backup-public
-
-
-#### Create Private Links ####
-#Create sumbolic link so that a single backup script and push all backup locations as once
-for key in "${!BU_PRIVATE[@]}"; do
-    echo "$key ${BU_PRIVATE[$key]}"
-	LNS_SOURCE=${BU_PRIVATE[$key]}
-	LNS_TARGET="$PATH_LOCAL_PRIVATE/$key"
-	if [ ! -L "$LNS_TARGET" ]; then
-		ln -s $LNS_SOURCE $LNS_TARGET
-	fi
+# Source every scope conf. paths.conf is excluded -- already loaded.
+# Lexical order is fine here because each scope conf is self-contained.
+for conf in "$CONF_DIR"/*.conf; do
+    [ -e "$conf" ] || continue                 # no matches
+    [ "$(basename "$conf")" = "paths.conf" ] && continue
+    # shellcheck disable=SC1090  # per-iteration source can't be hinted; SC1090 is the right tool.
+    # shellcheck source-path=SCRIPTDIR
+    source "$conf"
 done
 
 
-#### Backup Private via Rsync ####
-ssh $RSYNC_BU_USER@$RSYNC_BU_URL mkdir -p $RSYNC_BU_PATH
-rsync -rptgoDL --delete $PATH_LOCAL_PRIVATE/ $RSYNC_BU_USER@$RSYNC_BU_URL:$RSYNC_BU_PATH
+#### Validate Configuration ####
+# Catch config errors before they silently produce empty backups. Each
+# declared scope should have at least one entry; an empty array is almost
+# always a typo or a forgotten migration step.
+if [ "${#SYNC_BACKUP_SCOPES[@]}" -eq 0 ]; then
+    graceful_exit "no SYNC_BACKUP_SCOPES declared; check that your conf.d/*.conf files end with 'SYNC_BACKUP_SCOPES+=(...)'"
+fi
 
-#Note: if you need to use a pem, things get more interesting with rsync in a script. Here is an example. You need to use the 'eval' command to get the quotations to work
-#SC_SSH_PEM_RSYNC="-e \"ssh $SC_SSH_PEM\""
-#eval rsync " -P $SC_SSH_PEM_RSYNC -a --delete /some/local/dir/ $RSYNC_BU_USER@$RSYNC_BU_URL:/$RSYNC_BU_PATH"
-
-
-#### Backup Private via AWS ####
-# uncomment if needed
-#aws s3 sync $PATH_LOCAL_PRIVATE/ $AWS_BU_BUCKET_PATH
-
-
-#### Create Public Links ####
-for key in "${!BU_PUBLIC[@]}"; do
-    echo "$key ${BU_PUBLIC[$key]}"
-	LNS_SOURCE=${BU_PUBLIC[$key]}
-	LNS_TARGET="$PATH_LOCAL_PUBLIC/$key"
-	if [ ! -L "$LNS_TARGET" ]; then
-		ln -s $LNS_SOURCE $LNS_TARGET
-	fi
+for scope in "${SYNC_BACKUP_SCOPES[@]}"; do
+    declare -n _arr="BU_${scope^^}"
+    if [ "${#_arr[@]}" -eq 0 ]; then
+        logger -t sync-backup -p user.warning \
+            "scope '$scope' declared but has no entries; check conf.d/$scope.conf"
+    fi
 done
 
 
-#### Backup Public via Rsync ####
-# TODO
+#### Pre-create Remote Parent Dirs ####
+# Build the per-scope parent dirs we need on the remote. rsync will
+# auto-create the leaf for each entry but not the intermediate
+# $RSYNC_BU_PATH/<scope>/, so we mkdir those up front.
+remote_parents=()
+for scope in "${SYNC_BACKUP_SCOPES[@]}"; do
+    remote_parents+=("$RSYNC_BU_PATH/$scope")
+done
 
+if [ "${#remote_parents[@]}" -gt 0 ]; then
+    # shellcheck disable=SC2029
+    # RSYNC_BU_PATH is intentionally expanded on the client side -- we
+    # want this client's value used on the remote.
+    if ! ssh "$RSYNC_BU_USER@$RSYNC_BU_URL" "mkdir -p ${remote_parents[*]}"; then
+        logger -t sync-backup -p user.err \
+            "could not reach $RSYNC_BU_URL to create remote parent dirs; aborting"
+        echo "Could not reach $RSYNC_BU_URL. Aborting."
+        exit 1
+    fi
+fi
+
+
+#### Backup Entries ####
+# One rsync per BU_<scope> entry. Each entry's --delete operates only
+# on its own remote subdir, so a missing or broken BU_* entry cannot
+# interfere with another entry's delete semantics. Per-entry failures
+# are recorded in syslog and counted toward the final exit status.
+BACKUP_FAILURES=0
+TOTAL_ENTRIES=0
+
+for scope in "${SYNC_BACKUP_SCOPES[@]}"; do
+    declare -n _bu="BU_${scope^^}"
+    for key in "${!_bu[@]}"; do
+        echo "$scope/$key ${_bu[$key]}"
+        backup_one_entry "${_bu[$key]}" "$RSYNC_BU_PATH/$scope/$key" "$scope/$key" \
+            || BACKUP_FAILURES=$((BACKUP_FAILURES + 1))
+        TOTAL_ENTRIES=$((TOTAL_ENTRIES + 1))
+    done
+done
+
+
+#### Summary ####
+# Surface a final pass/fail record so cron / monitoring can see whether
+# the run completed cleanly. Broken-symlink skips do NOT count as
+# failures -- they are expected operator-fixable config drift.
+if [ "$BACKUP_FAILURES" -gt 0 ]; then
+    logger -t sync-backup -p user.err \
+        "backup completed with $BACKUP_FAILURES of $TOTAL_ENTRIES entries failing; see earlier log lines"
+    echo
+    echo "Backup completed with $BACKUP_FAILURES of $TOTAL_ENTRIES entries failing. See syslog tag 'sync-backup' for details."
+    echo "to inspect: ssh $RSYNC_BU_USER@$RSYNC_BU_URL ls $RSYNC_BU_PATH"
+    exit 1
+fi
+
+logger -t sync-backup -p user.info \
+    "backup completed: $TOTAL_ENTRIES entries OK"
 echo
-echo to test: ssh $RSYNC_BU_USER@$RSYNC_BU_URL ls $RSYNC_BU_PATH
+echo "Backup completed: $TOTAL_ENTRIES entries OK."
+echo "to test: ssh $RSYNC_BU_USER@$RSYNC_BU_URL ls $RSYNC_BU_PATH"
 echo

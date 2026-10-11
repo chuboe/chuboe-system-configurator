@@ -1,0 +1,12 @@
+# shellcheck shell=bash
+# conf.d/examples/public.conf.example -- reference entries for the
+# public scope. This file is NOT sourced by sync-backup.sh -- it lives
+# in conf.d/examples/ purely as copy-paste fodder for operators building
+# their own conf.d/public.conf.
+
+declare -gA BU_PUBLIC=(
+    # [backup-public]=$USER_HOME/chuboe-backup-public
+)
+
+# Required in the LIVE conf.d/public.conf, not in this example:
+# SYNC_BACKUP_SCOPES+=(public)

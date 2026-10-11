@@ -11,23 +11,15 @@ function graceful_exit
 echo HERE variables
 SC_SCRIPTNAME=$(readlink -f "$0")
 SC_SCRIPTPATH=$(dirname "$SC_SCRIPTNAME")
-SC_BASENAME=$(basename "$0")
-SC_OSUSER=$(id -u -n)
-SC_OSUSER_GROUP=$(id -g -n)
 SC_BACKUP_SCRIPT_DIR=/opt/chuboe-system-backup
-SC_BACKUP_SCRIPT=$SC_BACKUP_SCRIPT_DIR/sync-backup.sh
 
 #validations
 echo HERE validations
 sudo ls &>/dev/null || graceful_exit "user does not have sudo capabilities"
 
-#create shared location
-echo HERE create script directory
-sudo mkdir -p $SC_BACKUP_SCRIPT_DIR
-#sudo chown $SC_OSUSER:$SC_OSUSER_GROUP $SC_BACKUP_SCRIPT_DIR #should not be needed - should be owned by root
-cd $SC_BACKUP_SCRIPT_DIR || graceful_exit "could not cd to $SC_BACKUP_SCRIPT_DIR"
-cd $HOME || graceful_exit "could not cd to $HOME"
-cd $SC_SCRIPTPATH || graceful_exit "could not cd to $SC_SCRIPTPATH" #this is the location where clone occurred - this is the assumed location moving forward
+# cwd must be the clone directory for the relative paths below
+# (bin-rust/*, alias_nu.txt, .psqlrc, .inputrc, starship.toml, ...).
+cd $SC_SCRIPTPATH || graceful_exit "could not cd to $SC_SCRIPTPATH"
 
 echo HERE apt install
 sudo apt update
@@ -190,18 +182,12 @@ then
 fi
 
 # create and copy over backup artifacts
-echo HERE copy files
-if [[ -f "$SC_BACKUP_SCRIPT" ]]; then
-    echo "$SC_BACKUP_SCRIPT exists... skipping..."
-else
-    sudo cp sync-backup.sh $SC_BACKUP_SCRIPT_DIR/.
-    sudo cp chuboe-system-backup-cron $SC_BACKUP_SCRIPT_DIR/.
-    sudo cp create-root-ssh-key.sh $SC_BACKUP_SCRIPT_DIR/.
-    sudo cp chuboe-system-backup-cron $SC_BACKUP_SCRIPT_DIR/.
-    echo "- 20250419: write all system configuration changes here with most recent changes at the top." | sudo tee $SC_BACKUP_SCRIPT_DIR/readme.md
-    # Draft a last update version to prevent the first rsync from failing
-    sudo touch $SC_BACKUP_SCRIPT_DIR/sync-lastupdate.txt
-fi
+# The backup install lives in its own idempotent script so it can be run
+# outside of init.sh (e.g. to re-deploy after editing sync-backup.sh or
+# conf.d/* without re-running the full init.sh). See install-backup.sh
+# for details on what it does and how it preserves operator edits.
+echo HERE install chuboe backup
+sudo bash "$SC_SCRIPTPATH/install-backup.sh"
 
 # nix package manager
 echo HERE install nix package manager
