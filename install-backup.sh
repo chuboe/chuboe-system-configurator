@@ -80,6 +80,10 @@ Installed by install-backup.sh on $(date -u +%Y-%m-%dT%H:%M:%SZ).
 Hostname at install time: $HOSTNAME_VAL
 
 Edit conf.d/paths.conf to set RSYNC_BU_USER and RSYNC_BU_URL.
+Run $DEST/create-root-ssh-key.sh as root and follow its printed
+instructions to install the public key on your rsync.net sub-account.
+Without this step, the first backup or cron run will fail with a
+publickey authentication error.
 Edit conf.d/private.conf (and public.conf) to list paths to back up.
 See conf.d/examples/ for typical entries.
 
