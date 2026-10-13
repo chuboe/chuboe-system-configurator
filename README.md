@@ -44,12 +44,8 @@ Any bash statements you wish to keep local to a given server, add to file named 
 
 * This repo includes a backup script to store common artifacts off-site.
 * The script is split between an engine (`sync-backup.sh`) and per-scope configuration in `conf.d/`. The engine is generic; you tell it what to back up by editing or adding `conf.d/<scope>.conf` files.
-* Quick start:
-  1. Edit `conf.d/paths.conf` with your rsync.net credentials and host identifier.
-  2. Edit `conf.d/private.conf` (and/or `conf.d/public.conf`) to list the paths you want backed up under each scope. See `conf.d/examples/` for typical entries.
-  3. Run `sync-backup.sh` as root and check syslog (`grep sync-backup /var/log/syslog`) for warnings or errors.
-  4. For automated execution, copy `chuboe-system-backup-cron` to `/etc/cron.d/`.
 * Adding a new backup scope (e.g. "encrypted", "scratch") is purely a configuration change: drop a new `conf.d/<scope>.conf` that declares a `BU_<SCOPE>` array and appends to `SYNC_BACKUP_SCOPES`. No script edits required.
+* **Operator workflow (the single source of truth) lives in the deployed readme on each host at `/opt/chuboe-system-backup/readme.md`** — created by `install-backup.sh` during `init.sh`, or by running `install-backup.sh` standalone. After install, read that file for the post-install steps (paths.conf credentials, root SSH key, scope entries, cron, etc.). Keep it up to date as the source of truth; do not duplicate its steps here.
 * See `sync-backup.sh` for the per-entry rsync model and layout-versioning notes.
 * See [Simplified Server Data Backup with rsync.net](https://www.chuck-stack.org/ls/blog-rsync-net.html)
 
