@@ -20,6 +20,17 @@ The purpose of this repository is to:
 
 # Usage
 
+## Capability Map
+
+`init.sh` bootstraps a machine and also installs ongoing capabilities. Capabilities that need re-running on an existing server live in their own script, callable on demand:
+
+| Capability | Script | Run it again when... |
+|---|---|---|
+| Neovim binary | `install-neovim.sh` | you want the latest `stable` |
+| Neovim config | `install-kickstart.sh` | you want upstream master, or edited something in `nvim/` |
+| Backup | `install-backup.sh` | you edited `sync-backup.sh` or `conf.d/*` |
+| Backup data | `sync-backup.sh` | nothing — it runs from cron |
+
 ## tmux
 
 Many of the chuboe idempiere scripts require either a screen or tmux session to ensure scripts will continue to run even if you are disconnected.
@@ -51,10 +62,13 @@ Any bash statements you wish to keep local to a given server, add to file named 
 
 ## Neovim
 
-This repo installs Neovim from source and uses the [kickstart.nvim](https://github.com/cboecking/kickstart.nvim) configuration (fork of [nvim-lua/kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim)).
+This repo installs Neovim from source at its moving `stable` tag and configures it with upstream [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) — no personal fork. Our personalizations live in [`nvim/`](nvim/) here and are copied onto the upstream config by `install-kickstart.sh`.
 
-See [refresh-kickstart-from-upstream.md](refresh-kickstart-from-upstream.md) for the recurring procedure that keeps the personal fork caught up with `nvim-lua/kickstart.nvim/master`.
+Two scripts own this capability, and both run standalone so an existing server can be kept current without re-running `init.sh`:
 
-### Troubleshooting
+```bash
+./install-kickstart.sh --update   # config -> upstream master, then re-apply nvim/
+./install-neovim.sh               # binary -> latest stable (no-op if unchanged)
+```
 
-If nvim fails to load — a treesitter module error, custom plugins in `~/.config/nvim/lua/custom/plugins/` not loading, or a kickstart.nvim config out of sync — the personal fork has typically fallen behind upstream. Run the procedure in [refresh-kickstart-from-upstream.md](refresh-kickstart-from-upstream.md).
+See [refresh-kickstart-from-upstream.md](refresh-kickstart-from-upstream.md) for the layout, how to edit a personalization, and how to migrate a host still on the old fork.
