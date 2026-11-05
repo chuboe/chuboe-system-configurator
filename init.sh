@@ -23,7 +23,7 @@ cd $SC_SCRIPTPATH || graceful_exit "could not cd to $SC_SCRIPTPATH"
 
 echo HERE apt install
 sudo apt update
-sudo apt install -y man git git-lfs tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pipx gpg jc openssh-server fzf ripgrep cron jq moreutils dict screen xdg-utils shellcheck
+sudo apt install -y man git git-lfs tree tmux fd-find wget sysstat curl ufw rsync zip pkg-config gcc cmake libssl-dev pipx gpg jc openssh-server fzf ripgrep cron jq moreutils dict screen xdg-utils shellcheck build-essential
 
 # jc - JSON Convert - converts the output of many CLI tools, file-types, and common strings for easier parsing in scripts.
 # gcc cmake libssl-dev - added for rust toolchain
@@ -31,6 +31,7 @@ sudo apt install -y man git git-lfs tree tmux fd-find wget sysstat curl ufw rsyn
 # dict - dictionary and thesaurus (install dictd dict-gcide dict-wn if need local results)
 # moreutils = vipe + ... (https://joeyh.name/code/moreutils/)
 # install shellcheck (https://www.shellcheck.net) -- static analysis for shell scripts
+# build-essential - because needed in wsl above and beyond what was already installed
 
 # if you want to update the below files, add anything to the ./init.sh. Example: ./init.sh REDO
 
